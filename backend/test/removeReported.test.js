@@ -1,7 +1,10 @@
 const removeReported = require('../removeReported');
 
+jest.mock('../getReported');
+
 describe('getting stored reported users', () => {
-    
+
+    console.log("no email")
     var resultArray = removeReported("")
     test('array has correct length when no gmail is given', () => {
         expect (resultArray).toHaveLength(7);
@@ -16,6 +19,7 @@ describe('getting stored reported users', () => {
         expect (resultArray[6]).toBe("ggg@gmail.com");
     });
 
+    console.log("email found")
     var resultArray2 = removeReported("aaa@gmail.com")
     test('array has correct length when a gmail is given and is found', () => {
         expect (resultArray2).toHaveLength(6);
@@ -29,6 +33,7 @@ describe('getting stored reported users', () => {
         expect (resultArray2[5]).toBe("ggg@gmail.com");
     });
 
+    console.log("email not found")
     var resultArray3 = removeReported("abc@gmail.com")
     test('array has correct length when a gmail is given and is not found', () => {
         expect (resultArray3).toHaveLength(7);
