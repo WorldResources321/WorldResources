@@ -1,7 +1,5 @@
 const removeReported = require('../removeReported');
 
-jest.mock('../getReported');
-
 describe('getting stored reported users', () => {
 
     console.log("no email")
