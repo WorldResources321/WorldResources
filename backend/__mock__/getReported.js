@@ -1,6 +1,6 @@
 //mocked module (stores reported users)
 
-function getMockReported() {
+function getReported() {
     var reportedUsers = [];
     reportedUsers.push("aaa@gmail.com");
     reportedUsers.push("bbb@gmail.com");
@@ -11,4 +11,4 @@ function getMockReported() {
     reportedUsers.push("ggg@gmail.com");
     return reportedUsers;
 }
-module.exports = getMockReported;
+module.exports = getReported;
