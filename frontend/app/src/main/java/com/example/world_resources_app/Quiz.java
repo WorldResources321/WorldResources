@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
@@ -86,11 +87,16 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
         Button clickedButton = (Button) v;
         if(clickedButton.getId()==R.id.submit_btn) {
-            if (selectedAnswer.equals(QuestionsAnswers.correctAnswers[currentQuestionIndex])) {
-                score++;
+            if(selectedAnswer != (QuestionsAnswers.choices[currentQuestionIndex][0])){
+                Toast.makeText(this, "Please select an answer.", Toast.LENGTH_LONG).show();
             }
-            currentQuestionIndex++;
-            loadNewQuestion();
+            else {
+                if (selectedAnswer.equals(QuestionsAnswers.correctAnswers[currentQuestionIndex])) {
+                    score++;
+                }
+                currentQuestionIndex++;
+                loadNewQuestion();
+            }
 
         } else {
 

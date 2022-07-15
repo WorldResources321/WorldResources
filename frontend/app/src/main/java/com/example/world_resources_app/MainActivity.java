@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 1;
+    public boolean signedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +79,13 @@ public class MainActivity extends AppCompatActivity {
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent quizIntent = new Intent(MainActivity.this, Quiz.class);
-                startActivity(quizIntent);
+                if(signedIn) {
+                    Intent quizIntent = new Intent(MainActivity.this, Quiz.class);
+                    startActivity(quizIntent);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Please sign in to use this feature", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -102,6 +109,8 @@ public class MainActivity extends AppCompatActivity {
     private void signIn() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
+        signedIn = true;
+
     }
 
     @Override
@@ -140,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         try {
             updateUI(account);
+            signedIn = true;
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -148,6 +158,10 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI(GoogleSignInAccount account) throws UnknownHostException {
         if (account == null) {
             Log.d(TAG, "There is no user signed in!");
+        }
+        else{
+            Intent profileIntent = new Intent(MainActivity.this, ProfilePage.class);
+            startActivity(profileIntent);
         }
     }
 
