@@ -7,8 +7,6 @@ const client = new MongoClient(uri)
 
 app.use(express.json())
 
-        
-
 app.get('/', (req,res) => {
     res.send("Hello World\n")
 })
@@ -18,14 +16,23 @@ app.post('/', async (req,res) => {
     res.send(req.body.text) //store content under category "text"
 })
 
+app.get('/separateContent', (req,res) => {
+    res.send(req.body.content)
+})
+
+app.get('/separateAuthor', (req,res) => {
+    res.send(req.body.author)
+})
+
 
 app.post('/posttoforum', async (req, res) => {
     try {
-        await client.db("storage").collection("posts").insertOne(req.body.content)
-        await client.db("storage").collection("authors").insertOne(req.body.author)
-        res.status(200).send("Database has stored the post\n")
-        //const result =  client.db("data").collection("forum")//.find(req.body)
-        //res.send(result)
+        await client.db("storage").collection("posts").insertOne(req.body)
+        //await client.db("storage").collection("authors").insertOne(req.body.author)
+        const result =  client.db("data").collection("forum").find(req.body)
+        res.send(result)
+        //res.status(200).send("Database has stored the post\n")
+        //check if the author is blocked from posting or not
     }
     catch(err) {
         console.log(err)
@@ -35,8 +42,9 @@ app.post('/posttoforum', async (req, res) => {
 
 app.get('/getposts', async (req,res) => {
     try {
-        const content = await client.db("storage").collection("posts").find().sort({ _id: -1 }).limit(10) //get most recent posts
-        res.send(JSON.stringify(content))
+        const content = await client.db("storage").collection("posts").find().sort({ _id: -1 }).limit(10).toArray() //get most recent posts
+        console.log(content)
+        res.send(content)
     }
     catch(err) {
         console.log(err)
@@ -46,7 +54,7 @@ app.get('/getposts', async (req,res) => {
 
 app.get('/getauthors', async (req,res) => {
     try {
-        const authors = await client.db("storage").collection("authors").find().sort({ _id: -1 }).limit(10) //get most recent posts
+        const authors = await client.db("storage").collection("authors").find().sort({ _id: -1 }).limit(10).toArray() //get most recent posts
         res.send(JSON.stringify(authors))
     }
     catch(err) {
@@ -54,6 +62,7 @@ app.get('/getauthors', async (req,res) => {
         res.status(400).send(err)
     }
 })
+
 
 app.post('/report', async (req,res) => {
     try {
@@ -68,7 +77,7 @@ app.post('/report', async (req,res) => {
 
 app.get('/getreported', async (req,res) => {
     try {
-        const content = await client.db("storage").collection("reported").find().sort({ _id: -1 }) 
+        const content = await client.db("storage").collection("reported").find().sort({ _id: -1 }).toArray() 
         res.send(JSON.stringify(content))
     }
     catch(err) {
