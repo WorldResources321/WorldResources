@@ -1,4 +1,4 @@
-package com.example.world_resources_app;
+package com.example.mylibrary;
 
 import org.junit.Test;
 
@@ -15,4 +15,3 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
     }
 }
-

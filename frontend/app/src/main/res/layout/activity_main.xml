@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_main"
+    android:background="#add8e6"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -14,27 +16,75 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Forum"
-        android:id="@+id/forum_button"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="20dp"
-        />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:layout_marginBottom="0dp"
+        android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="News"
-        android:id="@+id/news_button"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="20dp"
-        />
+        <Button
+            android:id="@+id/sign_in_button"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#000000"
+            android:text="Google Sign In"
+            android:textSize="18sp"
+            android:translationX="250dp" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/maps_button"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#000000"
+            android:text="Fossil Fuels World Map"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/quiz_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#000000"
+            android:text="Fossil Fuels Quiz"
+            android:textSize="24sp" />
+
+        <Button
+            android:id="@+id/forum_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="250dp"
+            android:backgroundTint="#000000"
+            android:text="Forum"
+            android:textSize="24sp"
+            android:translationX="220dp"
+            android:translationY="72dp" />
+
+        <Button
+            android:id="@+id/news_button"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#000000"
+            android:text="News"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>
