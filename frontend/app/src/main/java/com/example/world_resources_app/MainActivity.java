@@ -28,11 +28,11 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button forumButton, newsButton;
+ //   private Button forumButton, newsButton;
 
-    private Button mapsButton;
-    private Button signInButton;
-    private Button quizButton;
+   // private Button mapsButton;
+ //   private Button signInButton;
+  //  private Button quizButton;
 
     final static String TAG = "MainActivity";
 
@@ -46,6 +46,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        Button forumButton;
+        Button newsButton;
+        Button mapsButton;
+        Button signInButton;
+        Button quizButton;
 
         forumButton = findViewById(R.id.forum_button);
         forumButton.setOnClickListener(new View.OnClickListener() {
