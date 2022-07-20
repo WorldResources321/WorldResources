@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+//import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -18,7 +18,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.world_resources_app.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.List;
 
 
@@ -27,12 +27,34 @@ public class ForumManagement extends AppCompatActivity {
     final static String TAG = "MainActivity";
 
 
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView p1,p2,p3,p4,p5,p6,p7,p8,p9,p10,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10; //posts and authors
-    private Button makePost, report;
+    //private SwipeRefreshLayout swipeRefreshLayout;
+    
+        //posts and authors
+    private TextView p1;
+    private TextView p2;
+    private TextView p3;
+    private TextView p4;
+    private TextView p5;
+    private TextView p6;
+    private TextView p7;
+    private TextView p8;
+    private TextView p9;
+    private TextView p10;
+    private TextView a1;
+    private TextView a2;
+    private TextView a3;
+    private TextView a4;
+    private TextView a5;
+    private TextView a6;
+    private TextView a7;
+    private TextView a8;
+    private TextView a9;
+    private TextView a10;
+   
+    //private Button makePost, report;
 
-    private List<String> forumContent = new ArrayList<String>();
-    private List<String> forumAuthors = new ArrayList<String>();
+   // private List<String> forumContent = new ArrayList<String>();
+   // private List<String> forumAuthors = new ArrayList<String>();
     private List<String> testForumContent = new ArrayList<String>();
     private List<String> testForumAuthors = new ArrayList<String>();
 
@@ -42,6 +64,9 @@ public class ForumManagement extends AppCompatActivity {
         setContentView(R.layout.activity_forum);
         setTitle("Forum");
 
+        Button makePost;
+        Button report;
+        
         testForumAuthors.add("test author 1");
         testForumAuthors.add("test author 2");
         testForumContent.add("test content 1: manually inputted since frontend/backend connection is not working asldfj wpeorm sc dpowlwakerpo awfmksdmp akewrklkmmclakjdfp werkdckmalksjfdkaf dslj alsjfdopawer" +
@@ -105,7 +130,7 @@ public class ForumManagement extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         //Toast.makeText(ForumFragment.this, "Success " + response, Toast.LENGTH_LONG).show();
-                        forumContent = (Arrays.asList(response.split(",")));
+                        //forumContent = (Arrays.asList(response.split(",")));
 
                     }
                 }, new Response.ErrorListener() {
@@ -129,7 +154,7 @@ public class ForumManagement extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         //Toast.makeText(ForumFragment.this, "Success " + response, Toast.LENGTH_LONG).show();
-                        forumAuthors = (Arrays.asList(response.split(",")));
+                        //forumAuthors = (Arrays.asList(response.split(",")));
 
                     }
                 }, new Response.ErrorListener() {
@@ -145,11 +170,12 @@ public class ForumManagement extends AppCompatActivity {
 
     private void updateForum() {
 
-        /*
+/*
         if (forumContent.get(0) != null) {
             p1.setText(forumContent.get(0));
             a1.setText(forumAuthors.get(0));
         }
+        
         if (forumContent.get(0) != null) {
             p2.setText(forumContent.get(1));
             a2.setText(forumAuthors.get(1));
@@ -194,6 +220,23 @@ public class ForumManagement extends AppCompatActivity {
         p2.setText(testForumContent.get(1));
         a1.setText(testForumAuthors.get(0));
         a2.setText(testForumAuthors.get(1));
+        p3.setText(testForumContent.get(0));
+        p4.setText(testForumContent.get(1));
+        a3.setText(testForumAuthors.get(0));
+        a4.setText(testForumAuthors.get(1));
+        p5.setText(testForumContent.get(0));
+        p6.setText(testForumContent.get(1));
+        a5.setText(testForumAuthors.get(0));
+        a6.setText(testForumAuthors.get(1));
+        p7.setText(testForumContent.get(0));
+        p8.setText(testForumContent.get(1));
+        a7.setText(testForumAuthors.get(0));
+        a8.setText(testForumAuthors.get(1));
+        p9.setText(testForumContent.get(0));
+        p10.setText(testForumContent.get(1));
+        a9.setText(testForumAuthors.get(0));
+        a10.setText(testForumAuthors.get(1));
+        
         //Toast.makeText(ForumManagement.this, forumContent.get(0).toString(),Toast.LENGTH_LONG);
     }
  

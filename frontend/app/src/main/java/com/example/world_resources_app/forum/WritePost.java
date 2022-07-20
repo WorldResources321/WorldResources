@@ -22,16 +22,18 @@ import java.util.Map;
 
 public class WritePost extends AppCompatActivity {
 
-    Button cancelButton, postButton;
-    EditText postContent;
 
-    String processedContent;
-    String postAuthor = "insert name"; //call getAuthorName from User module
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writepost);
+        
+        Button cancelButton;
+        Button postButton;
+        EditText postContent;
+        String processedContent;
+        String postAuthor = "insert name"; //call getAuthorName from User module
 
         //if user presses cancel, return to forum fragment
         cancelButton = findViewById(R.id.cancel_button);
@@ -44,8 +46,8 @@ public class WritePost extends AppCompatActivity {
 
         //if user presses post, check
         postContent = findViewById(R.id.editPost);
-        cancelButton = findViewById(R.id.sendpost_button);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+        postButton = findViewById(R.id.sendpost_button);
+        postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 processedContent = postContent.getText().toString(); //acquire post texts

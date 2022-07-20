@@ -15,7 +15,10 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
     TextView totalQuestionsTextView;
     TextView questionTextView;
-    Button ansA,ansB,ansC,ansD;
+    Button ansA;
+    Button ansB;
+    Button ansC;
+    Button ansD;
     Button submitBtn;
 
     int score = 0;

@@ -53,7 +53,7 @@ public class ReportUser extends AppCompatActivity {
     private void report(String reportedPerson) {
         RequestQueue queue = Volley.newRequestQueue(ReportUser.this);
 
-        String url = "http://10.0.2.2:3000/report";
+        String url = "http://10.0.2.2:3000/report/" + reportedPerson;
         StringRequest request = new StringRequest(url,
                 new Response.Listener<String>() {
                     @Override
