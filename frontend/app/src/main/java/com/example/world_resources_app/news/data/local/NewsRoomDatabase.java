@@ -14,9 +14,9 @@ import com.example.world_resources_app.news.models.NewsItem;
 @TypeConverters({Converters.class})
 public abstract class NewsRoomDatabase extends RoomDatabase {
 
-    public abstract ArticleDao articleDao();
-
     public static NewsRoomDatabase INSTANCE;
+    
+    public abstract ArticleDao articleDao();
 
     public static NewsRoomDatabase getDatabase(Context context) {
 

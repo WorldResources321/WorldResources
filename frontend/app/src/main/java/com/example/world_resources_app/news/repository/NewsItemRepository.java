@@ -9,7 +9,7 @@ import com.example.world_resources_app.news.async.DeleteNoteAsyncTask;
 import com.example.world_resources_app.news.async.InsertNoteAsyncTask;
 import com.example.world_resources_app.news.data.local.ArticleDao;
 import com.example.world_resources_app.news.data.local.NewsRoomDatabase;
-import com.example.world_resources_app.news.data.remote.NewsApiClient;
+//import com.example.world_resources_app.news.data.remote.NewsApiClient;
 import com.example.world_resources_app.news.models.NewsItem;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public class NewsItemRepository {
     private LiveData<List<NewsItem>> mAllSavedArticles;
 
     private static NewsItemRepository instance;
-    private NewsApiClient mNewsApiClient;
+    //private NewsApiClient mNewsApiClient;
 
     public static NewsItemRepository getInstance() {
         if (instance == null) {
@@ -30,7 +30,9 @@ public class NewsItemRepository {
     }
 
     public NewsItemRepository() {
-        mNewsApiClient = NewsApiClient.getInstance();
+        //NewsApiClient mNewsApiClient;
+        //mNewsApiClient = NewsApiClient.getInstance();
+        //unused 
     }
 
     public NewsItemRepository(Application application) {

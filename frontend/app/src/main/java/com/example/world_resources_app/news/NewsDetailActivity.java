@@ -44,7 +44,7 @@ public class NewsDetailActivity extends AppCompatActivity
     private String mTitle;
     //private String mDate;
     private String mSource;
-    private String mAuthor;
+    //private String mAuthor;
     //private String mDescription;
     private boolean isHideToolbarView = false;
     private LinearLayout titleAppbar;
@@ -68,8 +68,9 @@ public class NewsDetailActivity extends AppCompatActivity
         TextView datePublishedTextView;
         String mUrlToImage;
         String mDate;
-        String mDescription;
+        //String mDescription;
         AppBarLayout appBarLayout;
+        String mAuthor;
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -100,7 +101,7 @@ public class NewsDetailActivity extends AppCompatActivity
         mTitle = newsItem.getTitle();
         mDate = newsItem.getPublishedAt();
         mAuthor = newsItem.getAuthor();
-        mDescription = newsItem.getDescription();
+        //mDescription = newsItem.getDescription();
 
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.error(Utils.getRandomDrawableColor());

@@ -82,6 +82,7 @@ public class NewsDataSource extends PageKeyedDataSource<Integer, NewsItem> {
 
             @Override
             public void onFailure(Call<RootJsonData> call, Throwable t) {
+                //do nothing
             }
         });
     }

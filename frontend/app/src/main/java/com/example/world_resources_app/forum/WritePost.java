@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class WritePost extends AppCompatActivity {
 
-
+    String processedContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,6 @@ public class WritePost extends AppCompatActivity {
         Button cancelButton;
         Button postButton;
         EditText postContent;
-        String processedContent;
         String postAuthor = "insert name"; //call getAuthorName from User module
 
         //if user presses cancel, return to forum fragment

@@ -14,11 +14,13 @@ import com.example.world_resources_app.news.utils.DataStatus;
 public class HeadlinesViewModel extends ViewModel {
 
     public LiveData<PagedList<NewsItem>> itemPagedList;
-    private MutableLiveData<NewsDataSource> liveDataSource;//private MutableLiveData<HeadlinesDataSource> liveDataSource;
+   // private MutableLiveData<NewsDataSource> liveDataSource;//private MutableLiveData<HeadlinesDataSource> liveDataSource;
     private NewsDataSourceFactory newsDataSourceFactory;//HeadlinesDataSourceFactory newsDataSourceFactory;
     private LiveData dataStatus;
 
     public HeadlinesViewModel() {
+
+        MutableLiveData<NewsDataSource> liveDataSource;
 
         newsDataSourceFactory = new NewsDataSourceFactory();//HeadlinesDataSourceFactory();
         liveDataSource = newsDataSourceFactory.getNewsLiveDataSource();

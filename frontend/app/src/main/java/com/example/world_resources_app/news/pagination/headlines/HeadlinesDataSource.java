@@ -147,13 +147,13 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
                 rootJsonDataCall = newsAPI.getTopHeadlinesByLanguage(language, API_KEY, pageNumber, PAGE_SIZE);
             }
         } else {
-            if (category.toLowerCase().equals("all")) {
+            if (category.equalsIgnoreCase("all")) {
                 rootJsonDataCall = newsAPI.searchNewsByKeyWord( "oil+OR+gas+OR+coal"
                         , SORT_ORDER, language, API_KEY, pageNumber, PAGE_SIZE); //////////////
-            } else if (category.toLowerCase().equals("oil")) {
+            } else if (category.equalsIgnoreCase("oil")) {
                 rootJsonDataCall = newsAPI.searchNewsByKeyWord( "\" oil \""
                         , SORT_ORDER, language, API_KEY, pageNumber, PAGE_SIZE); //////////////
-            } else if (category.toLowerCase().equals("coal")) {
+            } else if (category.equalsIgnoreCase("coal")) {
                 rootJsonDataCall = newsAPI.searchNewsByKeyWord( "\" coal \""
                         , SORT_ORDER, language, API_KEY, pageNumber, PAGE_SIZE); //////////////
             } else {

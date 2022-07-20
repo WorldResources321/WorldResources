@@ -44,9 +44,9 @@ public class HeadlinesFragment extends Fragment implements AdapterView.OnItemSel
 
     private HeadlinesViewModel mHeadlinesViewModel;
 
-    public HeadlinesFragment() {
+   // public HeadlinesFragment() {
         // Required empty public constructor
-    }
+  //  }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -131,6 +131,14 @@ public class HeadlinesFragment extends Fragment implements AdapterView.OnItemSel
                         emptyStateTextView.setVisibility(View.VISIBLE);
                         emptyStateTextView.setText(R.string.no_internet_connection);
                         break;
+                    default:
+                        swipeRefreshLayout.setRefreshing(false);
+                        textViewTitle.setVisibility(View.VISIBLE);
+                        cardView.setVisibility(View.VISIBLE);
+                        spinner.setVisibility(View.VISIBLE);
+                        emptyStateTextView.setVisibility(View.VISIBLE);
+                        emptyStateTextView.setText(R.string.no_internet_connection);
+                        break;
                 }
             }
         });
@@ -168,7 +176,7 @@ public class HeadlinesFragment extends Fragment implements AdapterView.OnItemSel
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
+            //do nothing
     }
 
     @Override

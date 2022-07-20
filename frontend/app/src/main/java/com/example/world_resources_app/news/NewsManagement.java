@@ -11,13 +11,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class NewsManagement extends AppCompatActivity {
 
-    private BottomNavigationView bottomNavigationView;
+ 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news);
 
+        BottomNavigationView bottomNavigationView;
+        
         if (savedInstanceState == null) {
             getSupportFragmentManager()
                     .beginTransaction()

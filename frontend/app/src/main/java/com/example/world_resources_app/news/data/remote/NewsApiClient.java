@@ -4,8 +4,8 @@ public class NewsApiClient {
 
     private static NewsApiClient instance;
 
-    public NewsApiClient() {
-    }
+   // public NewsApiClient() {
+  //  }
 
     public static NewsApiClient getInstance() {
         if (instance == null) {

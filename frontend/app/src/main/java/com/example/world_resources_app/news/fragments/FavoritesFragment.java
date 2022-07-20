@@ -36,9 +36,9 @@ public class FavoritesFragment extends Fragment {
 
     private FavoritesViewModel mFavoritesViewModel;
 
-    public FavoritesFragment() {
+  //  public FavoritesFragment() {
         // Required empty public constructor
-    }
+   // }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
