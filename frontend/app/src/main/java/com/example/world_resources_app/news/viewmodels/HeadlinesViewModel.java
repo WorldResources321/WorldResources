@@ -1,13 +1,13 @@
 package com.example.world_resources_app.news.viewmodels;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
+//import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import com.example.world_resources_app.news.models.NewsItem;
-import com.example.world_resources_app.news.pagination.news.NewsDataSource;
+//import com.example.world_resources_app.news.pagination.news.NewsDataSource;
 import com.example.world_resources_app.news.pagination.news.NewsDataSourceFactory;
 import com.example.world_resources_app.news.utils.DataStatus;
 
@@ -20,10 +20,10 @@ public class HeadlinesViewModel extends ViewModel {
 
     public HeadlinesViewModel() {
 
-        MutableLiveData<NewsDataSource> liveDataSource;
+        //MutableLiveData<NewsDataSource> liveDataSource;
 
         newsDataSourceFactory = new NewsDataSourceFactory();//HeadlinesDataSourceFactory();
-        liveDataSource = newsDataSourceFactory.getNewsLiveDataSource();
+       // liveDataSource = newsDataSourceFactory.getNewsLiveDataSource();
         dataStatus = newsDataSourceFactory.getDataStatusLiveData();
 
         PagedList.Config pagedListConfig =
