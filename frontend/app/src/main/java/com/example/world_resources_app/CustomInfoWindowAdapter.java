@@ -15,11 +15,11 @@ import com.google.android.gms.maps.model.Marker;
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
-    private Context mContext;
+    //private Context mContext;
 
     @SuppressLint("InflateParams")
     public CustomInfoWindowAdapter(Context context) {
-        mContext = context;
+        Context mContext = context;
         mWindow = LayoutInflater.from(context).inflate(R.layout.custom_info_window,null);
     }
 
