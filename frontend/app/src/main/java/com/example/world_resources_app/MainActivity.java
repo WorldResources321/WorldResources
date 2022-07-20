@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     final static String TAG = "MainActivity";
 
-    private String textLatLong;
+   // private String textLatLong;
 
     private GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN = 1;
