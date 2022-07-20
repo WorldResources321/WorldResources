@@ -32,23 +32,23 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 public class NewsDetailActivity extends AppCompatActivity
         implements AppBarLayout.OnOffsetChangedListener {
 
-    private Toolbar toolbar;
-    private ImageView titleImageView;
-    private TextView appbarTitleTextView;
-    private TextView appbarSubtitleTextView;
-    private TextView titleTextView;
-    private TextView authorTextView;
-    private TextView datePublishedTextView;
+    //private Toolbar toolbar;
+    //private ImageView titleImageView;
+   // private TextView appbarTitleTextView;
+   // private TextView appbarSubtitleTextView;
+    //private TextView titleTextView;
+    //private TextView authorTextView;
+    //private TextView datePublishedTextView;
     private String mUrl;
-    private String mUrlToImage;
+    //private String mUrlToImage;
     private String mTitle;
-    private String mDate;
+    //private String mDate;
     private String mSource;
     private String mAuthor;
-    private String mDescription;
+    //private String mDescription;
     private boolean isHideToolbarView = false;
     private LinearLayout titleAppbar;
-    private AppBarLayout appBarLayout;
+    //private AppBarLayout appBarLayout;
     private FrameLayout frameLayoutDateBehavior;
 
     private FavoritesViewModel mFavoritesViewModel;
@@ -58,6 +58,18 @@ public class NewsDetailActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_detail);
+
+        Toolbar toolbar;
+        ImageView titleImageView;
+        TextView appbarTitleTextView;
+        TextView appbarSubtitleTextView;
+        TextView titleTextView;
+        TextView authorTextView;
+        TextView datePublishedTextView;
+        String mUrlToImage;
+        String mDate;
+        String mDescription;
+        AppBarLayout appBarLayout;
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,8 +126,8 @@ public class NewsDetailActivity extends AppCompatActivity
 
         String author;
 
-        if (this.mAuthor != null) {
-            author = " \u2022 " + this.mAuthor;
+        if (mAuthor != null) { //this.mAuthor
+            author = " \u2022 " + mAuthor;
         } else {
             author = "";
         }
