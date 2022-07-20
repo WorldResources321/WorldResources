@@ -29,9 +29,8 @@ app.post('/posttoforum', async (req, res) => {
     try {
         await client.db("storage").collection("posts").insertOne(req.body)
         //await client.db("storage").collection("authors").insertOne(req.body.author)
-        const result =  client.db("data").collection("forum").find(req.body)
-        res.send(result)
-        //res.status(200).send("Database has stored the post\n")
+        //const result =  client.db("data").collection("forum").find(req.body)
+        res.send("stored to database")
         //check if the author is blocked from posting or not
     }
     catch(err) {
@@ -92,7 +91,7 @@ async function run() {
         await client.connect()
         console.log("Successfully connected to the database")
         var server = app.listen(3000, function () {
-            var host = server.address().address
+            //var host = server.address().address
             var port = server.address().port
             console.log("Server running at port %s", port)
         })
