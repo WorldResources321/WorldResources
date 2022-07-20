@@ -19,7 +19,7 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     @SuppressLint("InflateParams")
     public CustomInfoWindowAdapter(Context context) {
-        Context mContext = context;
+        //Context mContext = context;
         mWindow = LayoutInflater.from(context).inflate(R.layout.custom_info_window,null);
     }
 
