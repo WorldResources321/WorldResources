@@ -24,7 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.world_resources_app.R;
 import com.example.world_resources_app.news.models.NewsItem;
 import com.example.world_resources_app.news.models.Source;
-import com.example.world_resources_app.news.utils.Utils;
+import com.example.world_resources_app.news.utils.UtilsUtil;
 import com.example.world_resources_app.news.viewmodels.FavoritesViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -104,7 +104,7 @@ public class NewsDetailActivity extends AppCompatActivity
         //mDescription = newsItem.getDescription();
 
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.error(Utils.getRandomDrawableColor());
+        requestOptions.error(UtilsUtil.getRandomDrawableColor());
 
         Glide.with(this)
                 .load(mUrlToImage)
@@ -116,7 +116,7 @@ public class NewsDetailActivity extends AppCompatActivity
         appbarSubtitleTextView.setText(mUrl);
         titleTextView.setText(mTitle);
         authorTextView.setText(mSource + appendAuthorWithBullet(mAuthor));
-        datePublishedTextView.setText(Utils.DateFormat(mDate));
+        datePublishedTextView.setText(UtilsUtil.DateFormat(mDate));
 
         initWebView(mUrl);
 

@@ -36,7 +36,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.world_resources_app.R;
 import com.example.world_resources_app.news.NewsDetailActivity;
 import com.example.world_resources_app.news.models.NewsItem;
-import com.example.world_resources_app.news.utils.Utils;
+import com.example.world_resources_app.news.utils.UtilsUtil;
 import com.example.world_resources_app.news.viewmodels.FavoritesViewModel;
 
 public class FavoritesItemAdapter extends ListAdapter<NewsItem, FavoritesItemAdapter.ViewHolder> {
@@ -81,8 +81,8 @@ public class FavoritesItemAdapter extends ListAdapter<NewsItem, FavoritesItemAda
         NewsItem newsItem = getItem(position);
 
         RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(Utils.getRandomDrawableColor());
-        requestOptions.error(Utils.getRandomDrawableColor());
+        requestOptions.placeholder(UtilsUtil.getRandomDrawableColor());
+        requestOptions.error(UtilsUtil.getRandomDrawableColor());
         requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
         requestOptions.centerCrop();
 
@@ -108,8 +108,8 @@ public class FavoritesItemAdapter extends ListAdapter<NewsItem, FavoritesItemAda
         holder.textViewTitle.setText(newsItem.getTitle());
         holder.textViewDescription.setText(newsItem.getDescription());
         holder.textViewSource.setText(newsItem.getSource().getName());
-        holder.textViewTime.setText(" \u2022 " + Utils.DateToTimeFormat(newsItem.getPublishedAt()));
-        holder.textViewPublishedAt.setText(Utils.DateFormat(newsItem.getPublishedAt()));
+        holder.textViewTime.setText(" \u2022 " + UtilsUtil.DateToTimeFormat(newsItem.getPublishedAt()));
+        holder.textViewPublishedAt.setText(UtilsUtil.DateFormat(newsItem.getPublishedAt()));
         holder.textViewAuthor.setText(newsItem.getAuthor());
     }
 

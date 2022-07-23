@@ -6,11 +6,11 @@ import androidx.paging.PageKeyedDataSource;
 
 
 import com.example.world_resources_app.news.data.remote.NewsAPI;
-import com.example.world_resources_app.news.data.remote.ServiceGenerator;
+import com.example.world_resources_app.news.data.remote.ServiceGeneratorUtil;
 import com.example.world_resources_app.news.models.NewsItem;
 import com.example.world_resources_app.news.models.RootJsonData;
 import com.example.world_resources_app.news.utils.DataStatus;
-import com.example.world_resources_app.news.utils.Utils;
+import com.example.world_resources_app.news.utils.UtilsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +25,7 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
     private static final int FIRST_PAGE = 1;
     public static final String SORT_ORDER = "publishedAt";
     public String language = "en";
-    public static final String API_KEY = Utils.API_KEY;
+    public static final String API_KEY = UtilsUtil.API_KEY;
     public static final int PAGE_SIZE = 100;
 
     private String mKeyword;
@@ -124,13 +124,13 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
     }
 
     private Call<RootJsonData> createHeadlinesJsonDataCall(String category, int pageNumber) {
-        String locale = Utils.getCountry();
-        boolean isLocaleAvailable = Utils.checkLocale(locale);
+        String locale = UtilsUtil.getCountry();
+        boolean isLocaleAvailable = UtilsUtil.checkLocale(locale);
 
         language = Locale.getDefault().getLanguage();
-        boolean isLanguageAvailable = Utils.checkLanguage(language);
+        boolean isLanguageAvailable = UtilsUtil.checkLanguage(language);
 
-        NewsAPI newsAPI = ServiceGenerator.createService(NewsAPI.class);
+        NewsAPI newsAPI = ServiceGeneratorUtil.createService(NewsAPI.class);
         Call<RootJsonData> rootJsonDataCall;
 
         if (category.isEmpty()) { //keyword
@@ -139,7 +139,7 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
                 rootJsonDataCall = newsAPI.getTopHeadlinesByCountry(locale, language, API_KEY, pageNumber, PAGE_SIZE);
             } else {
                 if (isLanguageAvailable) {
-                    language = Utils.getLanguage();
+                    language = UtilsUtil.getLanguage();
                 } else {
                     language = "en";
                 }

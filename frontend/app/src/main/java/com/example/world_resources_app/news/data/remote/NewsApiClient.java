@@ -1,3 +1,4 @@
+/*
 package com.example.world_resources_app.news.data.remote;
 
 public class NewsApiClient {
@@ -14,3 +15,4 @@ public class NewsApiClient {
         return instance;
     }
 }
+*/

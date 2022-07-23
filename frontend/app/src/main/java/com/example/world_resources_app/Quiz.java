@@ -22,7 +22,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
     Button submitBtn;
 
     int score = 0;
-    int totalQuestion = QuestionsAnswers.question.length;
+    int totalQuestion = QuestionsAnswersUtil.question.length;
     int currentQuestionIndex = 0;
     String selectedAnswer;
 
@@ -58,11 +58,11 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
             return;
         }
 
-        questionTextView.setText(QuestionsAnswers.question[currentQuestionIndex]);
-        ansA.setText(QuestionsAnswers.choices[currentQuestionIndex][0]);
-        ansB.setText(QuestionsAnswers.choices[currentQuestionIndex][1]);
-        ansC.setText(QuestionsAnswers.choices[currentQuestionIndex][2]);
-        ansD.setText(QuestionsAnswers.choices[currentQuestionIndex][3]);
+        questionTextView.setText(QuestionsAnswersUtil.question[currentQuestionIndex]);
+        ansA.setText(QuestionsAnswersUtil.choices[currentQuestionIndex][0]);
+        ansB.setText(QuestionsAnswersUtil.choices[currentQuestionIndex][1]);
+        ansC.setText(QuestionsAnswersUtil.choices[currentQuestionIndex][2]);
+        ansD.setText(QuestionsAnswersUtil.choices[currentQuestionIndex][3]);
 
     }
 
@@ -90,11 +90,11 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
         Button clickedButton = (Button) v;
         if(clickedButton.getId()==R.id.submit_btn) {
-            if(selectedAnswer != (QuestionsAnswers.choices[currentQuestionIndex][0])){
+            if(selectedAnswer != (QuestionsAnswersUtil.choices[currentQuestionIndex][0])){ //to be edited
                 Toast.makeText(this, "Please select an answer.", Toast.LENGTH_LONG).show();
             }
             else {
-                if (selectedAnswer.equals(QuestionsAnswers.correctAnswers[currentQuestionIndex])) {
+                if (selectedAnswer.equals(QuestionsAnswersUtil.correctAnswers[currentQuestionIndex])) {
                     score++;
                 }
                 currentQuestionIndex++;

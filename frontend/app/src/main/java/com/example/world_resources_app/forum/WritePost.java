@@ -70,6 +70,8 @@ public class WritePost extends AppCompatActivity {
     }
 
     private void makePost(String content, String author) {
+        String key = "122333";
+
         RequestQueue queue = Volley.newRequestQueue(WritePost.this);
 
         String url = "http://10.0.2.2:3000/posttoforum";
@@ -91,6 +93,7 @@ public class WritePost extends AppCompatActivity {
               Map<String,String> params = new HashMap<String, String>();
               params.put("content", content);
               params.put("author", author);
+              params.put("token", key);
               return params;
             }
         };
