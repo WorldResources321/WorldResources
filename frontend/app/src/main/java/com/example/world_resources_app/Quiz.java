@@ -1,11 +1,13 @@
 package com.example.world_resources_app;
 
-
+import androidx.annotation.ColorInt;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,10 +23,12 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
     Button ansD;
     Button submitBtn;
 
+    final static String TAG = "Quiz";
+
     int score = 0;
     int totalQuestion = QuestionsAnswersUtil.question.length;
     int currentQuestionIndex = 0;
-    String selectedAnswer;
+    public String selectedAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,18 +71,25 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
     }
 
     private void finishQuiz() {
+
+        String message = "Score is " + score + " out of " + totalQuestion;
+
         new AlertDialog.Builder(this)
                 .setTitle("Results")
-                .setMessage("Score is " + score + " out of " + totalQuestion)
+                .setMessage(message)
                 .setPositiveButton("Restart",(dialogInterface, i) -> restartQuiz())
                 .setCancelable(false)
                 .show();
+
+        //totalQuestionsTextView.setText(message);
     }
 
     private void restartQuiz() {
         score = 0;
         currentQuestionIndex = 0;
         loadNewQuestion();
+        String questionText = "Total questions: " + totalQuestion;
+        //totalQuestionsTextView.setText(questionText);
     }
 
     @Override
@@ -90,7 +101,10 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
         Button clickedButton = (Button) v;
         if(clickedButton.getId()==R.id.submit_btn) {
-            if(selectedAnswer != (QuestionsAnswersUtil.choices[currentQuestionIndex][0])){ //to be edited
+            if(selectedAnswer != QuestionsAnswersUtil.choices[currentQuestionIndex][0]
+                    && selectedAnswer != QuestionsAnswersUtil.choices[currentQuestionIndex][1]
+                    && selectedAnswer != QuestionsAnswersUtil.choices[currentQuestionIndex][2]
+                    && selectedAnswer != QuestionsAnswersUtil.choices[currentQuestionIndex][3]) {
                 Toast.makeText(this, "Please select an answer.", Toast.LENGTH_LONG).show();
             }
             else {

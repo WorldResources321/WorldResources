@@ -1,5 +1,6 @@
 package com.example.world_resources_app;
 
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -10,48 +11,31 @@ import android.widget.Button;
 import com.example.world_resources_app.forum.ForumManagement;
 import com.example.world_resources_app.news.NewsManagement;
 
-import android.content.Intent;
-import android.os.Bundle;
-import java.net.UnknownHostException;
-
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
- //   private Button forumButton, newsButton;
-
-   // private Button mapsButton;
- //   private Button signInButton;
-  //  private Button quizButton;
+    private Button mapsButton, signInButton, quizButton, forumButton, newsButton;
 
     final static String TAG = "MainActivity";
 
-   // private String textLatLong;
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
 
-    private GoogleSignInClient mGoogleSignInClient;
-    private int RC_SIGN_IN = 1;
+    private final int RC_SIGN_IN = 1000;
     public boolean signedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        Button forumButton;
-        Button newsButton;
-        Button mapsButton;
-        Button signInButton;
-        Button quizButton;
 
         forumButton = findViewById(R.id.forum_button);
         forumButton.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(signedIn) {
+                if(true) {
                     Intent quizIntent = new Intent(MainActivity.this, Quiz.class);
                     startActivity(quizIntent);
                 }
@@ -95,11 +79,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        gsc = GoogleSignIn.getClient(this, gso);
 
         signInButton = findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -109,14 +93,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        Intent signInIntent = gsc.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
         signedIn = true;
-
     }
 
     @Override
@@ -125,50 +107,19 @@ public class MainActivity extends AppCompatActivity {
 
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            handleSignInResult(task);
-        }
-    }
-
-    private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
-        try {
-            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
             try {
-                updateUI(account);
-            } catch (UnknownHostException e) {
-                e.printStackTrace();
-            }
-        } catch (ApiException e) {
-            Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-            try {
-                updateUI(null);
-            } catch (UnknownHostException ex) {
-                ex.printStackTrace();
+                task.getResult(ApiException.class);
+                navigateToProfile();
+            } catch (ApiException e) {
+                Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        try {
-            updateUI(account);
-            signedIn = true;
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void updateUI(GoogleSignInAccount account) throws UnknownHostException {
-        if (account == null) {
-            Log.d(TAG, "There is no user signed in!");
-        }
-        else{
-            Intent profileIntent = new Intent(MainActivity.this, ProfilePage.class);
-            startActivity(profileIntent);
-        }
+    private void navigateToProfile() {
+        finish();
+        Intent intent = new Intent(MainActivity.this,ProfilePage.class);
+        startActivity(intent);
     }
 
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activity_main"
-    android:background="#add8e6"
+    android:background="#09c6df"
     tools:context=".MainActivity">
 
     <androidx.fragment.app.FragmentContainerView
@@ -30,16 +30,20 @@
         android:layout_marginBottom="0dp"
         android:orientation="vertical">
 
+
         <Button
             android:id="@+id/sign_in_button"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="#000000"
-            android:text="Google Sign In"
-            android:textSize="18sp"
-            android:translationX="250dp" />
+            android:backgroundTint="#fafafa"
+            android:text="Profile"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:translationX="228dp"
+            android:translationY="0dp" />
 
         <Button
             android:id="@+id/maps_button"
@@ -47,9 +51,12 @@
             android:layout_height="150dp"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#fafafa"
             android:text="Fossil Fuels World Map"
-            android:textSize="24sp" />
+            android:textColor="@color/black"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:translationY="0dp" />
 
         <Button
             android:id="@+id/quiz_button"
@@ -57,21 +64,26 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#fafafa"
             android:text="Fossil Fuels Quiz"
-            android:textSize="24sp" />
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:translationY="0dp" />
 
         <Button
             android:id="@+id/forum_button"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="250dp"
-            android:backgroundTint="#000000"
+            android:layout_marginTop="160dp"
+            android:backgroundTint="#fafafa"
             android:text="Forum"
-            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
             android:translationX="220dp"
-            android:translationY="72dp" />
+            android:translationY="150dp" />
 
         <Button
             android:id="@+id/news_button"
@@ -79,9 +91,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
-            android:backgroundTint="#000000"
+            android:backgroundTint="#fafafa"
             android:text="News"
-            android:textSize="24sp" />
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:translationY="70dp" />
 
 
     </LinearLayout>
