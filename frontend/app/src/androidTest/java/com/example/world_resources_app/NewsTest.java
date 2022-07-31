@@ -58,7 +58,7 @@ public class NewsTest {
         onView(withRecyclerView(R.id.recycler_view).atPositionOnView(1, R.id.text_view_news_description)).check(matches(withText(containsString("oil"))));
         Thread.sleep(1000);
     }
-/*
+
     @Test
     public void spinnerCoalSelectionTest() throws InterruptedException {
         onView(withId(R.id.spinner_category)).perform(scrollTo()).perform(click());
@@ -81,7 +81,7 @@ public class NewsTest {
         onView(withId(R.id.save)).check(matches(isDisplayed()));
     }
 
-  */
+  
 
 
 
