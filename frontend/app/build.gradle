@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.world_resources_app"
-        minSdk 16
+        minSdk 18
         targetSdk 30
         versionCode 1
         versionName "1.0"
@@ -34,6 +34,8 @@ android {
 
 dependencies {
 
+    implementation 'androidx.test.uiautomator:uiautomator:2.2.0'
+    implementation 'androidx.test.espresso:espresso-contrib:3.4.0'
     def paging_version = "3.1.1"
     implementation "androidx.paging:paging-runtime:$paging_version"
 
