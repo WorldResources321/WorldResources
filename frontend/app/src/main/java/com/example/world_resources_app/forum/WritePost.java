@@ -16,6 +16,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.world_resources_app.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,16 +25,18 @@ import java.util.Map;
 public class WritePost extends AppCompatActivity {
 
     String processedContent;
+    String postAuthor = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_writepost);
-        
+
         Button cancelButton;
         Button postButton;
         EditText postContent;
-        String postAuthor = "insert name"; //call getAuthorName from User module
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
 
         //if user presses cancel, return to forum fragment
         cancelButton = findViewById(R.id.cancel_button);
@@ -49,18 +53,26 @@ public class WritePost extends AppCompatActivity {
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 processedContent = postContent.getText().toString(); //acquire post texts
+                //get user's email edit
+                if (account != null) {
+                    postAuthor = account.getEmail();
+                }
+                else {
+                    postAuthor = "";
+                }
 
                 if (TextUtils.isEmpty(processedContent)) { //if post is empty/invalid
                     Toast.makeText(getApplicationContext(), "Please write something before posting", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else if (processedContent.length() > 500) {
-                    Toast.makeText(getApplicationContext(), "Please write 500 characters or less", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),  "Please write 500 characters or less", Toast.LENGTH_SHORT).show();
                 }
                 else { //send post if post is valid
                     makePost(processedContent, postAuthor);
-                    //Toast.makeText(getApplicationContext(), "Posting...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Posting...", Toast.LENGTH_SHORT).show();
                     finish();
                 }
 
@@ -82,19 +94,19 @@ public class WritePost extends AppCompatActivity {
                         Toast.makeText(WritePost.this, "Success " + response, Toast.LENGTH_LONG).show();
                     }
                 }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(WritePost.this,"Please try again. " + error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(WritePost.this,"Please try again. " + error.toString(),Toast.LENGTH_LONG).show();
+            }
+        }
         ){
             @Override
             protected Map<String, String> getParams() {
-              Map<String,String> params = new HashMap<String, String>();
-              params.put("content", content);
-              params.put("author", author);
-              params.put("token", key);
-              return params;
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("content", content);
+                params.put("author", author);
+                params.put("token", key);
+                return params;
             }
         };
 
