@@ -7,8 +7,8 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import com.example.world_resources_app.news.models.NewsItem;
-//import com.example.world_resources_app.news.pagination.news.NewsDataSource;
-import com.example.world_resources_app.news.pagination.news.NewsDataSourceFactory;
+//import com.example.world_resources_app.news.pagination.NewsDataSource;
+import com.example.world_resources_app.news.pagination.NewsDataSourceFactory;
 import com.example.world_resources_app.news.utils.DataStatus;
 
 public class HeadlinesViewModel extends ViewModel {

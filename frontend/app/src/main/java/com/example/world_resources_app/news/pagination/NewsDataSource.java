@@ -1,9 +1,8 @@
-package com.example.world_resources_app.news.pagination.headlines;
+package com.example.world_resources_app.news.pagination;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
-
 
 import com.example.world_resources_app.news.data.remote.NewsAPI;
 import com.example.world_resources_app.news.data.remote.ServiceGeneratorUtil;
@@ -20,19 +19,19 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> {
+public class NewsDataSource extends PageKeyedDataSource<Integer, NewsItem> {
 
     private static final int FIRST_PAGE = 1;
     public static final String SORT_ORDER = "publishedAt";
-    public String language = "en";
     public static final String API_KEY = UtilsUtil.API_KEY;
+    public String language = "en";
     public static final int PAGE_SIZE = 100;
 
     private String mKeyword;
     private MutableLiveData<DataStatus> dataStatusMutableLiveData;
 
-    public HeadlinesDataSource(String category) {
-        mKeyword = category;
+    public NewsDataSource(String keyword) {
+        mKeyword = keyword;
         dataStatusMutableLiveData = new MutableLiveData<>();
     }
 
@@ -43,7 +42,7 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, NewsItem> callback) {
         dataStatusMutableLiveData.postValue(DataStatus.LOADING);
-        Call<RootJsonData> rootJsonDataCall = createHeadlinesJsonDataCall(mKeyword, FIRST_PAGE);
+        Call<RootJsonData> rootJsonDataCall = createNewsJsonDataCall(mKeyword, FIRST_PAGE);
         rootJsonDataCall.enqueue(new Callback<RootJsonData>() {
             @Override
             public void onResponse(Call<RootJsonData> call, Response<RootJsonData> response) {
@@ -66,8 +65,7 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, NewsItem> callback) {
-        dataStatusMutableLiveData.postValue(DataStatus.LOADING);
-        Call<RootJsonData> rootJsonDataCall = createHeadlinesJsonDataCall(mKeyword, FIRST_PAGE);
+        Call<RootJsonData> rootJsonDataCall = createNewsJsonDataCall(mKeyword, FIRST_PAGE);
         rootJsonDataCall.enqueue(new Callback<RootJsonData>() {
             @Override
             public void onResponse(Call<RootJsonData> call, Response<RootJsonData> response) {
@@ -80,19 +78,18 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
                     // and the previous page key
                     callback.onResult(response.body().getNewsItems(), adjacentKey);
                 }
-                dataStatusMutableLiveData.postValue(DataStatus.LOADED);
             }
 
             @Override
             public void onFailure(Call<RootJsonData> call, Throwable t) {
-                dataStatusMutableLiveData.postValue(DataStatus.ERROR);
+                //do nothing
             }
         });
     }
 
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, NewsItem> callback) {
-        Call<RootJsonData> rootJsonDataCall = createHeadlinesJsonDataCall(mKeyword, params.key);
+        Call<RootJsonData> rootJsonDataCall = createNewsJsonDataCall(mKeyword, params.key);
         rootJsonDataCall.enqueue(new Callback<RootJsonData>() {
             @Override
             public void onResponse(Call<RootJsonData> call, Response<RootJsonData> response) {
@@ -123,7 +120,8 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
         });
     }
 
-    private Call<RootJsonData> createHeadlinesJsonDataCall(String category, int pageNumber) {
+    private Call<RootJsonData> createNewsJsonDataCall(String keyword, int pageNumber) {
+
         String locale = UtilsUtil.getCountry();
         boolean isLocaleAvailable = UtilsUtil.checkLocale(locale);
 
@@ -133,7 +131,7 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
         NewsAPI newsAPI = ServiceGeneratorUtil.createService(NewsAPI.class);
         Call<RootJsonData> rootJsonDataCall;
 
-        if (category.isEmpty()) { //keyword
+        if (keyword.isEmpty()) {
 
             if (isLocaleAvailable) {
                 rootJsonDataCall = newsAPI.getTopHeadlinesByCountry(locale, language, API_KEY, pageNumber, PAGE_SIZE);
@@ -147,21 +145,12 @@ public class HeadlinesDataSource extends PageKeyedDataSource<Integer, NewsItem> 
                 rootJsonDataCall = newsAPI.getTopHeadlinesByLanguage(language, API_KEY, pageNumber, PAGE_SIZE);
             }
         } else {
-            if (category.equalsIgnoreCase("all")) {
-                rootJsonDataCall = newsAPI.searchNewsByKeyWord( "oil+OR+gas+OR+coal"
-                        , SORT_ORDER, language, API_KEY, pageNumber, PAGE_SIZE); //////////////
-            } else if (category.equalsIgnoreCase("oil")) {
-                rootJsonDataCall = newsAPI.searchNewsByKeyWord( "\" oil \""
-                        , SORT_ORDER, language, API_KEY, pageNumber, PAGE_SIZE); //////////////
-            } else if (category.equalsIgnoreCase("coal")) {
-                rootJsonDataCall = newsAPI.searchNewsByKeyWord( "\" coal \""
-                        , SORT_ORDER, language, API_KEY, pageNumber, PAGE_SIZE); //////////////
-            } else {
-                rootJsonDataCall = newsAPI.searchNewsByKeyWord( "\" gas \""
-                        , SORT_ORDER, language, API_KEY, pageNumber, PAGE_SIZE); //////////////
-            }
+            rootJsonDataCall = newsAPI.searchNewsByKeyWord(keyword, SORT_ORDER, language, API_KEY, pageNumber, PAGE_SIZE);
+
         }
 
         return rootJsonDataCall;
     }
 }
+
+

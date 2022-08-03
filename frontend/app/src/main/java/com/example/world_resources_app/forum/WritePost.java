@@ -9,23 +9,35 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.world_resources_app.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class WritePost extends AppCompatActivity {
 
     String processedContent;
-    String postAuthor = "";
+    String postAuthor = "unknown author";
+
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +47,11 @@ public class WritePost extends AppCompatActivity {
         Button cancelButton;
         Button postButton;
         EditText postContent;
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this,gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
 
         //if user presses cancel, return to forum fragment
         cancelButton = findViewById(R.id.cancel_button);
@@ -56,11 +71,12 @@ public class WritePost extends AppCompatActivity {
 
                 processedContent = postContent.getText().toString(); //acquire post texts
                 //get user's email edit
-                if (account != null) {
-                    postAuthor = account.getEmail();
+                if(acct != null){
+                    //postAuthor = acct.getEmail();
+                    postAuthor = "dd"; //to edit
                 }
                 else {
-                    postAuthor = "";
+                    postAuthor = "dd";
                 }
 
                 if (TextUtils.isEmpty(processedContent)) { //if post is empty/invalid
@@ -83,34 +99,51 @@ public class WritePost extends AppCompatActivity {
 
     private void makePost(String content, String author) {
         String key = "122333";
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String URL = "http://192.168.1.119:3000/posttoforum"; //"http://10.0.2.2:3000/posttoforum";
 
-        RequestQueue queue = Volley.newRequestQueue(WritePost.this);
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("content", content);
+            jsonBody.put("author", author);
+            jsonBody.put("key", key);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        String url = "http://10.0.2.2:3000/posttoforum";
-        StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(WritePost.this, "Success " + response, Toast.LENGTH_LONG).show();
-                    }
-                }, new Response.ErrorListener() {
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //backend
+                Toast.makeText(WritePost.this, "Success " + response, Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
                 Toast.makeText(WritePost.this,"Please try again. " + error.toString(),Toast.LENGTH_LONG).show();
+                if (error instanceof NetworkError) {
+                } else if (error instanceof ServerError) {
+                } else if (error instanceof AuthFailureError) {
+                } else if (error instanceof ParseError) {
+                } else if (error instanceof NoConnectionError) {
+                } else if (error instanceof TimeoutError) {
+                    Toast.makeText(getApplicationContext(),
+                            "Oops. Timeout error!",
+                            Toast.LENGTH_LONG).show();
+                }
             }
-        }
-        ){
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("content", content);
-                params.put("author", author);
-                params.put("token", key);
-                return params;
-            }
-        };
+        });
 
-        queue.add(request);
+        req.setRetryPolicy(new DefaultRetryPolicy(
+           10000,
+           DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+           DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+        queue.add(req);
+
     }
+
+
 
 }

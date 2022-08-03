@@ -35,11 +35,4 @@ public abstract class NewsRoomDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-//    private static Callback sRoomDatabaseCallback = new Callback() {
-//        @Override
-//        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-//            super.onCreate(db);
-//            new PopulateDbAsyncTask(INSTANCE).execute();
-//        }
-//    };
 }

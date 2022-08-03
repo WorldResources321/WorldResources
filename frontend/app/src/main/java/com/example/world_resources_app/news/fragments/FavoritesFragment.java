@@ -25,8 +25,6 @@ import java.util.List;
 
 public class FavoritesFragment extends Fragment {
 
-    // TODO: Implement Pagination
-
     private TextView emptyStateTextView;
     private TextView textViewTitle;
 
@@ -119,6 +117,7 @@ public class FavoritesFragment extends Fragment {
                         mFavoritesViewModel.deleteArticle(newsItem);
                         Toast.makeText(mContext, "Removed from Favorites", Toast.LENGTH_SHORT).show();
                     }
+
                 });
 
         helper.attachToRecyclerView(recyclerView);

@@ -9,12 +9,17 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.world_resources_app.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class ReportUser extends AppCompatActivity {
@@ -39,8 +44,7 @@ public class ReportUser extends AppCompatActivity {
                 if (TextUtils.isEmpty(processedUser)) { //if post is empty/invalid
                     Toast.makeText(getApplicationContext(), "Please enter a user", Toast.LENGTH_SHORT).show();
                     return;
-                }
-                else { //send post if post is valid
+                } else { //send post if post is valid
                     report(processedUser);
                     finish();
                 }
@@ -51,23 +55,33 @@ public class ReportUser extends AppCompatActivity {
     }
 
     private void report(String reportedPerson) {
-        RequestQueue queue = Volley.newRequestQueue(ReportUser.this);
 
-        String url = "http://10.0.2.2:3000/report/" + reportedPerson;
-        StringRequest request = new StringRequest(url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(getApplicationContext(), "User reported", Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ReportUser.this,"Report failed. " + error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }
-        );
+        RequestQueue queue = Volley.newRequestQueue(this);
 
-        queue.add(request);
+        String URL = "http://10.0.2.2:3000/report";//"http://192.168.1.119:3000/report";
+
+        JSONObject jsonBody = new JSONObject();
+        try {
+            jsonBody.put("email", reportedPerson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, URL, jsonBody, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                //backend
+                Toast.makeText(ReportUser.this, "Success " + response, Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+                Toast.makeText(ReportUser.this, "Please try again. " + error.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+        queue.add(req);
     }
+
+
+
 }

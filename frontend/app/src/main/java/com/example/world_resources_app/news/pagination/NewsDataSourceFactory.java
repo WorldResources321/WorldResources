@@ -1,4 +1,4 @@
-package com.example.world_resources_app.news.pagination.news;
+package com.example.world_resources_app.news.pagination;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -26,9 +26,9 @@ public class NewsDataSourceFactory extends DataSource.Factory {
         return itemDataSource;
     }
 
-    public MutableLiveData<NewsDataSource> getNewsLiveDataSource() {
-        return itemLiveDataSource;
-    }
+  //  public MutableLiveData<NewsDataSource> getNewsLiveDataSource() {
+  //      return itemLiveDataSource;
+  //  }
 
     public void setQuery(String query) {
         mQuery = query;

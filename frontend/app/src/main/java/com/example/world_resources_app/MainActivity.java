@@ -99,6 +99,7 @@ public class MainActivity extends AppCompatActivity {
         Intent signInIntent = gsc.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
         signedIn = true;
+
     }
 
     @Override

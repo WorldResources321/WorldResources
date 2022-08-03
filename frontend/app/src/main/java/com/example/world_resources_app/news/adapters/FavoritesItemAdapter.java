@@ -161,14 +161,14 @@ public class FavoritesItemAdapter extends ListAdapter<NewsItem, FavoritesItemAda
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.add(0, v.getId(), 0, "Add to Favorites"); //groupId, itemId, order, title
+            menu.add(0, v.getId(), 0, "Remove from Favourites"); //groupId, itemId, order, title
             menu.getItem(0).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     int position = getAdapterPosition();
                     NewsItem newsItem = getItem(position);
-                    mFavoritesViewModel.insertArticle(newsItem);
-                    Toast.makeText(mContext, "Added to Favorites", Toast.LENGTH_SHORT).show();
+                    mFavoritesViewModel.deleteArticle(newsItem);
+                    Toast.makeText(mContext, "Removed from Favourites", Toast.LENGTH_SHORT).show();
                     return false;
                 }
             });
