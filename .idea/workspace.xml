@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f401e17d-5b4c-4c7d-8c1f-2150f56a8d11" name="Changes" comment="" />
+    <list default="true" id="f401e17d-5b4c-4c7d-8c1f-2150f56a8d11" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/app/src/androidTest/java/com/example/world_resources_app/NonFunctionalRequirementTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/src/main/res/layout/activity_forum.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/src/main/res/layout/activity_forum.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/app/src/main/res/layout/fragment_news.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/app/src/main/res/layout/fragment_news.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
