@@ -85,6 +85,63 @@ app.get('/getreported', async (req,res) => {
     }
 })
 
+MongoClient.connect(uri, (err, db) => {
+
+    if (err) {
+        console.log("Error while connecting mongo client")
+    } else {
+
+        const myDB = db.db('myDB')
+        const scoreCollection = myDB.collection('myScores')
+        
+        app.post('/getQuiz', (req, res) => {
+            const query = {
+                email: req.body.email,
+            }
+            scoreCollection.findOne(query, (err, result) => {
+                if (result != null) {
+                    const objToSend = {
+                        score: result.score
+                    }
+                    res.status(200).send(JSON.stringify(objToSend))
+                } else {
+                    res.status(404).send()
+                }
+            })
+
+        })
+
+        app.post('/storeQuiz', (req, res) => {
+            const newScore = {
+                email : req.body.email,
+                score : req.body.score
+            }
+            const query = {email : newScore.email}
+
+            scoreCollection.findOne(query, (err, result) => {
+                
+                if (result == null) {
+                    scoreCollection.insertOne(newScore, (err, result) => {
+                        res.status(200).send()
+                    })
+                } else if (newScore.score > result.score){
+                    scoreCollection.findOneAndReplace(query,newScore, (err, result) => {
+                        res.status(200).send()
+                    })
+                } else if(newScore.score == 10){
+                    scoreCollection.findOneAndReplace(query,newScore, (err, result) => {
+                        res.status(200).send()
+                    })
+                }
+                else {
+                    res.status(400).send()
+                }
+
+            })
+        })
+    }
+    })
+
 
 async function run() {
     try {
