@@ -73,10 +73,10 @@ public class WritePost extends AppCompatActivity {
                 //get user's email edit
                 if(acct != null){
                     //postAuthor = acct.getEmail();
-                    postAuthor = "dd"; //to edit
+                    postAuthor = "user1@gmail.com"; //to edit
                 }
                 else {
-                    postAuthor = "dd";
+                    postAuthor = "user1@gmail.com";
                 }
 
                 if (TextUtils.isEmpty(processedContent)) { //if post is empty/invalid
@@ -122,7 +122,7 @@ public class WritePost extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
                 Toast.makeText(WritePost.this,"Please try again. " + error.toString(),Toast.LENGTH_LONG).show();
-                if (error instanceof NetworkError) {
+          /*      if (error instanceof NetworkError) {
                 } else if (error instanceof ServerError) {
                 } else if (error instanceof AuthFailureError) {
                 } else if (error instanceof ParseError) {
@@ -131,15 +131,15 @@ public class WritePost extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),
                             "Oops. Timeout error!",
                             Toast.LENGTH_LONG).show();
-                }
+                } */
             }
         });
-
+/*
         req.setRetryPolicy(new DefaultRetryPolicy(
            10000,
            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
+        )); */
         queue.add(req);
 
     }

@@ -16,72 +16,175 @@ app.post('/', async (req,res) => {
     res.send(req.body.text) //store content under category "text"
 })
 
-app.get('/separateContent', (req,res) => {
-    res.send(req.body.content)
-})
+app.post('/postToForum', async (req, res) => {
+    try {    
+        const users = client.db("users")
+        const all = users.collection("all")
+        const blocked = users.collection("blocked")
 
-app.get('/separateAuthor', (req,res) => {
-    res.send(req.body.author)
-})
+        const content = req.body.content
+        const author = req.body.author
+        const query = {"email": author}
+
+        const newPost = {
+            content: content,
+            author: author
+        }
+
+        if (content == null || author == null || content === "" || author === "") { //if content or user is not specified
+            res.status(400).json({status: 400, message: "content or author unspecified"})
+        }
+        else {
+            await all.findOne(query, (err, result) => { 
+                if (result == null) { //author given does not exist (not a signed-in user)
+                    res.status(400).json({status: 400, message: "author is not a signed-in user"})
+                }
+                else {
+                    blocked.findOne(query, (err, result) => {
+                        if (result == null) { //author is qualified to post
+                            client.db("forum").collection("posts").insertOne(newPost, (err, result) => {
+                                res.status(200).json({status: 200, message: "post saved to database"})
+                            })
+                        }
+                        else { //author is blocked from posting
+                            res.status(400).json({status: 400, message: "author is blocked from posting"})
+                        }
+                    })
+               }
 
 
-app.post('/posttoforum', async (req, res) => {
-    try {
-        await client.db("storage").collection("posts").insertOne(req.body)
-        //await client.db("storage").collection("authors").insertOne(req.body.author)
-        //const result =  client.db("data").collection("forum").find(req.body)
-        res.send("stored to database")
-        //check if the author is blocked from posting or not
+            })
+        }
     }
     catch(err) {
         console.log(err)
-        res.status(400).send(err)
+        res.status(400).json({status: err.status, message: err.message})
     }
 })
 
-app.get('/getposts', async (req,res) => {
-    try {
-        const content = await client.db("storage").collection("posts").find().sort({ _id: -1 }).limit(10).toArray() //get most recent posts
-        console.log(content)
-        res.send(content)
+app.post('/addUser', async (req,res) => {
+
+    try {    
+        const users = client.db("users")
+        const all = users.collection("all")
+        const newUser = {
+            "email": req.body.email
+        }
+
+        if (newUser == null || newUser === "") { //if user is not given
+            res.status(400).json({status: 400, message: "user unspecified"})
+        }
+        else {
+            await all.findOne(newUser, (err, result) => { 
+                if (result == null) { //valid new user
+                    all.insertOne(newUser, (err, result) => {
+                        res.status(200).json({status: 200, message: "user saved to database"})
+                    })
+                }
+                else { //user already exists in database
+                    res.status(400).json({status: 400, message: "user is already in database"})
+                }
+            })
+        }
     }
     catch(err) {
         console.log(err)
-        res.status(400).send(err)
+        res.status(400).json({status: err.status, message: err.message})
+    }
+
+})
+
+app.post('/blockUser', async (req,res) => {
+    try {    
+        const users = client.db("users")
+        const all = users.collection("all")
+        const blocked = users.collection("blocked")
+        const newUser = {
+            "email": req.body.email
+        }
+
+        if (newUser == null || newUser === "") { //if user is not given
+            res.status(400).json({status: 400, message: "user unspecified"})
+        }
+        else {
+            await all.findOne(newUser, (err, result) => { 
+                if (result == null) { //blocked user is not a signed-in user
+                    res.status(400).json({status: 400, message: "user does not exist"})
+                }
+                else { 
+                    blocked.findOne(newUser, (err, result) => {
+                        if (result == null) { //valid user
+                            console.log(result)
+                            blocked.insertOne(newUser, (err, result) => {
+                                res.status(200).json({status: 200, message: "user blocked"})
+                            })
+                        }
+                        else { //user is already blocked
+                            res.status(400).json({status: 400, message: "user is already blocked"})
+                        }
+                    })
+                }
+            })
+        }
+    }
+    catch(err) {
+        console.log(err)
+        res.status(400).json({status: err.status, message: err.message})
     }
 })
 
-app.get('/getauthors', async (req,res) => {
-    try {
-        const authors = await client.db("storage").collection("authors").find().sort({ _id: -1 }).limit(10).toArray() //get most recent posts
-        res.send(JSON.stringify(authors))
+app.post('/reportUser', async (req,res) => {
+    try {    
+        const users = client.db("users")
+        const all = users.collection("all")
+        const reported = users.collection("reported")
+        const newUser = {
+            "email": req.body.email
+        }
+
+        if (newUser == null || newUser === "") { //if user is not given
+            res.status(400).json({status: 400, message: "user unspecified"})
+        }
+        else {
+            await all.findOne(newUser, (err, result) => { 
+                if (result == null) { //reported user is not a signed-in user
+                    res.status(400).json({status: 400, message: "user does not exist"})
+                }
+                else { 
+                    reported.findOne(newUser, (err, result) => {
+                        if (result == null) { //valid user
+                            reported.insertOne(newUser, (err, result) => {
+                                res.status(200).json({status: 200, message: "user reported"})
+                            })
+                        }
+                        else { //user is already blocked
+                            res.status(400).json({status: 400, message: "user has already been reported"})
+                        }
+                    })
+                }
+            })
+        }
     }
     catch(err) {
         console.log(err)
-        res.status(400).send(err)
+        res.status(400).json({status: err.status, message: err.message})
     }
 })
 
-
-app.post('/report', async (req,res) => {
+app.get('/getPosts', async (req,res) => {
     try {
-        await client.db("storage").collection("reported").insertOne(req.body)
-        res.status(200).send("Database has stored the reported user\n")
+        const posts = await client.db("forum").collection("posts").find().sort({ _id: -1 }).limit(10).toArray() //get most recent posts
+
+        if (posts == null) {
+            res.status(404).json({status: 400, message: "no posts yet"})
+        }
+        else {
+            res.status(200).json(posts)
+        }
     }
     catch(err) {
         console.log(err)
-        res.status(400).send(err)
-    }
-})
-
-app.get('/getreported', async (req,res) => {
-    try {
-        const content = await client.db("storage").collection("reported").find().sort({ _id: -1 }).toArray() 
-        res.send(JSON.stringify(content))
-    }
-    catch(err) {
-        console.log(err)
-        res.status(400).send(err)
+        res.status(400).json({status: err.status, message: err.message})
     }
 })
 
@@ -94,7 +197,7 @@ MongoClient.connect(uri, (err, db) => {
         const myDB = db.db('myDB')
         const scoreCollection = myDB.collection('myScores')
         
-        app.post('/getQuiz', (req, res) => {
+        app.post('/getQuiz', (req, res) => { //app.get not app.post ?
             const query = {
                 email: req.body.email,
             }
@@ -112,6 +215,7 @@ MongoClient.connect(uri, (err, db) => {
         })
 
         app.post('/storeQuiz', (req, res) => {
+            console.log("in storeQuiz")
             const newScore = {
                 email : req.body.email,
                 score : req.body.score
@@ -123,14 +227,17 @@ MongoClient.connect(uri, (err, db) => {
                 if (result == null) {
                     scoreCollection.insertOne(newScore, (err, result) => {
                         res.status(200).send()
+                        console.log("logged quiz (null)")
                     })
                 } else if (newScore.score > result.score){
                     scoreCollection.findOneAndReplace(query,newScore, (err, result) => {
                         res.status(200).send()
+                        console.log("logged quiz (new high score)")
                     })
                 } else if(newScore.score == 10){
                     scoreCollection.findOneAndReplace(query,newScore, (err, result) => {
                         res.status(200).send()
+                        console.log("logged quiz (full marks)")
                     })
                 }
                 else {

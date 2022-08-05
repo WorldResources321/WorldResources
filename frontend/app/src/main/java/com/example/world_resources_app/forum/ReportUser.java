@@ -58,7 +58,7 @@ public class ReportUser extends AppCompatActivity {
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        String URL = "http://10.0.2.2:3000/report";//"http://192.168.1.119:3000/report";
+        String URL = "http://10.0.2.2:3000/reportUser";//"http://192.168.1.119:3000/report";
 
         JSONObject jsonBody = new JSONObject();
         try {
@@ -70,13 +70,13 @@ public class ReportUser extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 //backend
-                Toast.makeText(ReportUser.this, "Success " + response, Toast.LENGTH_LONG).show();
+                Toast.makeText(ReportUser.this, "Success " + response, Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
-                Toast.makeText(ReportUser.this, "Please try again. " + error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(ReportUser.this, "Please try again. " + error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
         queue.add(req);

@@ -7,17 +7,29 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.signature.ObjectKey;
 import com.example.world_resources_app.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class ForumManagement extends AppCompatActivity {
@@ -48,11 +60,12 @@ public class ForumManagement extends AppCompatActivity {
     private TextView a8;
     private TextView a9;
     private TextView a10;
-   
+
+    Map<String, Object> posts;
     //private Button makePost, report;
 
-   // private List<String> forumContent = new ArrayList<String>();
-   // private List<String> forumAuthors = new ArrayList<String>();
+    private String[] forumContent;
+    private String[] forumAuthors;
     private List<String> testForumContent = new ArrayList<String>();
     private List<String> testForumAuthors = new ArrayList<String>();
 
@@ -73,7 +86,6 @@ public class ForumManagement extends AppCompatActivity {
                 "werwewerwerio apwoipo [0awoerq alokd[q 234091 ;a[o0-3oa ap002l,k ;0o[plaw3a -=f0134l14 g-f[fg23lakdsfpb apoakwmreasfaoewr[ apewormasvklagpoaweraewrawer23423awewat");
 
         getPosts();
-        getAuthors();
 
         p1 = findViewById(R.id.text1);
         p2 = findViewById(R.id.text2);
@@ -120,60 +132,47 @@ public class ForumManagement extends AppCompatActivity {
     }
 
     private void getPosts() { //get most recent post
-        RequestQueue queue = Volley.newRequestQueue(ForumManagement.this);
+        RequestQueue queue = Volley.newRequestQueue(this);
 
-        String url = "http://10.0.2.2:3000/getposts";
-        StringRequest request = new StringRequest(url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //Toast.makeText(ForumFragment.this, "Success " + response, Toast.LENGTH_LONG).show();
-                        //forumContent = (Arrays.asList(response.split(",")));
+        String URL = "http://10.0.2.2:3000/getPosts";//"http://192.168.1.119:3000/getPosts";
 
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(ForumManagement.this,"Posts cannot be loaded. " + error.toString(),Toast.LENGTH_LONG).show();
+        JsonObjectRequest req = new JsonObjectRequest(URL, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                Object[] content_objects = new Object[0];
+                Object [] author_objects = new Object[0];
+
+                if (response != null) {
+                    try {
+                        posts = jsonToMap(response);
+                        content_objects = (Object[]) posts.get("content");
+                        author_objects = (Object[]) posts.get("author");
+                        forumContent = (String[]) content_objects[0];
+                        forumAuthors = (String[]) author_objects[0];
+                        Toast.makeText(ForumManagement.this, "Success " + response, Toast.LENGTH_SHORT).show();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
-        );
-        queue.add(request);
-
-
-    }
-
-    private void getAuthors() { //get most recent post
-        RequestQueue queue = Volley.newRequestQueue(ForumManagement.this);
-
-        String url = "http://10.0.2.2:3000/getauthors";
-        StringRequest request = new StringRequest(url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //Toast.makeText(ForumFragment.this, "Success " + response, Toast.LENGTH_LONG).show();
-                        //forumAuthors = (Arrays.asList(response.split(",")));
-
-                    }
-                }, new Response.ErrorListener() {
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ForumManagement.this,"Posts cannot be loaded. " + error.toString(),Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+                Toast.makeText(ForumManagement.this, "Please try again. " + error.toString(), Toast.LENGTH_SHORT).show();
             }
-        }
-        );
+        });
+        queue.add(req);
 
-        queue.add(request);
     }
 
     private void updateForum() {
-
-/*
-        if (forumContent.get(0) != null) {
-            p1.setText(forumContent.get(0));
-            a1.setText(forumAuthors.get(0));
+    /*    if (forumContent[0] != null && forumAuthors != null) {
+            p1.setText(forumContent[0]);
+            a1.setText(forumAuthors[0]);
         }
-        
+
         if (forumContent.get(0) != null) {
             p2.setText(forumContent.get(1));
             a2.setText(forumAuthors.get(1));
@@ -237,7 +236,52 @@ public class ForumManagement extends AppCompatActivity {
         
         //Toast.makeText(ForumManagement.this, forumContent.get(0).toString(),Toast.LENGTH_LONG);
     }
- 
 
+
+    //https://www.codegrepper.com/code-examples/javascript/how+to+convert+json+array+to+map+in+java
+    public static Map<String, Object> jsonToMap(JSONObject json) throws JSONException {
+        Map<String, Object> retMap = new HashMap<String, Object>();
+
+        if(json != JSONObject.NULL) {
+            retMap = toMap(json);
+        }
+        return retMap;
+    }
+
+    public static Map<String, Object> toMap(JSONObject object) throws JSONException {
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        Iterator<String> keysItr = object.keys();
+        while(keysItr.hasNext()) {
+            String key = keysItr.next();
+            Object value = object.get(key);
+
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
+
+    public static List<Object> toList(JSONArray array) throws JSONException {
+        List<Object> list = new ArrayList<Object>();
+        for(int i = 0; i < array.length(); i++) {
+            Object value = array.get(i);
+            if(value instanceof JSONArray) {
+                value = toList((JSONArray) value);
+            }
+
+            else if(value instanceof JSONObject) {
+                value = toMap((JSONObject) value);
+            }
+            list.add(value);
+        }
+        return list;
+    }
 
 }
