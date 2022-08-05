@@ -100,7 +100,7 @@ public class WritePost extends AppCompatActivity {
     private void makePost(String content, String author) {
         String key = "122333";
         RequestQueue queue = Volley.newRequestQueue(this);
-        String URL = "http://192.168.1.119:3000/posttoforum"; //"http://10.0.2.2:3000/posttoforum";
+        String URL = "http://10.0.2.2:3000/postToForum"; //"http://192.168.1.119:3000/postToForum";
 
         JSONObject jsonBody = new JSONObject();
         try {

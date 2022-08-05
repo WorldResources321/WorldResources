@@ -42,7 +42,7 @@
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:translationX="228dp"
+
             android:translationY="0dp" />
 
         <Button
@@ -72,31 +72,32 @@
             android:translationY="0dp" />
 
         <Button
-            android:id="@+id/forum_button"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="160dp"
-            android:backgroundTint="#fafafa"
-            android:text="Forum"
-            android:textColor="@color/black"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:translationX="220dp"
-            android:translationY="150dp" />
-
-        <Button
             android:id="@+id/news_button"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
+            android:layout_below="@+id/quiz_button"
             android:backgroundTint="#fafafa"
             android:text="News"
             android:textColor="@color/black"
             android:textSize="30sp"
             android:textStyle="bold"
-            android:translationY="70dp" />
+            android:translationY="0dp" />
+
+        <Button
+            android:id="@+id/forum_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
+            android:backgroundTint="#fafafa"
+            android:text="Forum"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:translationX="0dp"
+            android:translationY="0dp" />
 
 
     </LinearLayout>

@@ -25,39 +25,41 @@
         android:textStyle="bold"
         tools:text="Write post" />
 
-    <Button
-      android:layout_marginHorizontal="280dp"
-      android:layout_marginTop="10dp"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Cancel"
-      android:id="@+id/cancel_button"
-    />
 
     <EditText
         android:id="@+id/editPost"
         android:layout_width="match_parent"
         android:layout_height="500dp"
-        android:layout_below="@id/cancel_button"
         android:layout_centerInParent="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/edittext_design"
         android:hint="Write something..."
-        android:padding="8dp"
 
+        android:padding="8dp"
         android:textSize="16sp" />
 
     <Button
-        android:layout_marginHorizontal="280dp"
+        android:layout_marginHorizontal="20dp"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
         android:layout_below="@id/editPost"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="80dp"
       android:text="Post"
       android:id="@+id/sendpost_button"
     />
+
+    <Button
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/cancel_button"
+        android:layout_below="@id/editPost"
+        android:translationX="100dp"
+        />
 
   </RelativeLayout>
 
