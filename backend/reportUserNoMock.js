@@ -8,7 +8,7 @@ const client = new MongoClient(uri)
 app.use(express.json())
 
 app.post('/reportUser', async (req,res) => {
-    try {    
+    
         const users = client.db("users")
         const all = users.collection("all")
         const reported = users.collection("reported")
@@ -16,6 +16,7 @@ app.post('/reportUser', async (req,res) => {
             "email": req.body.email
         }
 
+    try {
         if (req.body.email == null || req.body.email === "") { //if user is not given
             res.status(400).json({status: 400, message: "user unspecified"})
         }

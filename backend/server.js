@@ -27,8 +27,8 @@ app.post('/postToForum', async (req, res) => {
         const query = {"email": author}
 
         const newPost = {
-            content: content,
-            author: author
+            content: req.body.content,
+            author: req.body.author
         }
 
         if (content == null || author == null || content === "" || author === "") { //if content or user is not specified
@@ -36,11 +36,17 @@ app.post('/postToForum', async (req, res) => {
         }
         else {
             await all.findOne(query, (err, result) => { 
+                if (err) { 
+                    throw err;
+                }
                 if (result == null) { //author given does not exist (not a signed-in user)
                     res.status(404).json({status: 404, message: "author is not a signed-in user"})
                 }
                 else {
                     blocked.findOne(query, (err, result) => {
+                        if (err) { 
+                            throw err;
+                        }
                         if (result == null) { //author is qualified to post
                             client.db("forum").collection("posts").insertOne(newPost, (err, result) => {
                                 res.status(200).json({status: 200, message: "post saved to database"})
@@ -60,38 +66,6 @@ app.post('/postToForum', async (req, res) => {
         console.log(err)
         res.status(400).json({status: err.status, message: err.message})
     }
-})
-
-app.post('/addUser', async (req,res) => {
-
-    try {    
-        const users = client.db("users")
-        const all = users.collection("all")
-        const newUser = {
-            "email": req.body.email
-        }
-
-        if (req.body.email == null || req.body.email === "") { //if user is not given
-            res.status(400).json({status: 400, message: "user unspecified"})
-        }
-        else {
-            await all.findOne(newUser, (err, result) => { 
-                if (result == null) { //valid new user
-                    all.insertOne(newUser, (err, result) => {
-                        res.status(200).json({status: 200, message: "user saved to database"})
-                    })
-                }
-                else { //user already exists in database
-                    res.status(400).json({status: 400, message: "user is already in database"})
-                }
-            })
-        }
-    }
-    catch(err) {
-        console.log(err)
-        res.status(400).json({status: err.status, message: err.message})
-    }
-
 })
 
 app.post('/blockUser', async (req,res) => {
@@ -185,6 +159,38 @@ app.get('/getPosts', async (req,res) => {
         console.log(err)
         res.status(400).json({status: err.status, message: err.message})
     }
+})
+
+app.post('/addUser', async (req,res) => {
+
+    try {    
+        const users = client.db("users")
+        const all = users.collection("all")
+        const newUser = {
+            "email": req.body.email
+        }
+
+        if (req.body.email == null || req.body.email === "") { //if user is not given
+            res.status(400).json({status: 400, message: "user unspecified"})
+        }
+        else {
+            await all.findOne(newUser, (err, result) => { 
+                if (result == null) { //valid new user
+                    all.insertOne(newUser, (err, result) => {
+                        res.status(200).json({status: 200, message: "user saved to database"})
+                    })
+                }
+                else { //user already exists in database
+                    res.status(400).json({status: 400, message: "user is already in database"})
+                }
+            })
+        }
+    }
+    catch(err) {
+        console.log(err)
+        res.status(400).json({status: err.status, message: err.message})
+    }
+
 })
 
 MongoClient.connect(uri, (err, db) => {
