@@ -17,7 +17,6 @@ app.post('/', async (req,res) => {
 })
 
 app.post('/postToForum', async (req, res) => {
-    try {    
         const users = client.db("users")
         const all = users.collection("all")
         const blocked = users.collection("blocked")
@@ -30,7 +29,8 @@ app.post('/postToForum', async (req, res) => {
             content: req.body.content,
             author: req.body.author
         }
-
+        
+        try {    
         if (content == null || author == null || content === "" || author === "") { //if content or user is not specified
             res.status(400).json({status: 400, message: "content or author unspecified"})
         }
@@ -48,9 +48,8 @@ app.post('/postToForum', async (req, res) => {
                             throw err;
                         }
                         if (result == null) { //author is qualified to post
-                            client.db("forum").collection("posts").insertOne(newPost, (err, result) => {
-                                res.status(200).json({status: 200, message: "post saved to database"})
-                            })
+                            client.db("forum").collection("posts").insertOne(newPost)
+                            res.status(200).json({status: 200, message: "post saved to database"})
                         }
                         else { //author is blocked from posting
                             res.status(400).json({status: 400, message: "author is blocked from posting"})
@@ -125,11 +124,17 @@ app.post('/reportUser', async (req,res) => {
         }
         else {
             await all.findOne(newUser, (err, result) => { 
+                if (err) {
+                    throw(err);
+                }
                 if (result == null) { //reported user is not a signed-in user
                     res.status(404).json({status: 404, message: "user does not exist"})
                 }
                 else { 
                     reported.findOne(newUser, (err, result) => {
+                        if (err) {
+                            throw(err);
+                        }
                         if (result == null) { //valid user
                             reported.insertOne(newUser)
                             res.status(200).json({status: 200, message: "user reported"})
