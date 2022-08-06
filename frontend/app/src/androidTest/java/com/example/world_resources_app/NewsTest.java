@@ -10,20 +10,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static com.example.world_resources_app.TestUtils.withRecyclerView;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anyOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 
-import static kotlin.jvm.internal.Intrinsics.checkNotNull;
 
 import android.Manifest;
-import android.content.res.Resources;
-import android.view.View;
-
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
@@ -31,9 +22,7 @@ import androidx.test.rule.GrantPermissionRule;
 
 import com.example.world_resources_app.news.NewsManagement;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
