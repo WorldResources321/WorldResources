@@ -78,9 +78,8 @@ app.post('/addUser', async (req,res) => {
                     throw err;
                 }
                 if (result == null) { //valid new user
-                    all.insertOne(newUser, (err, result) => {
-                        res.status(200).json({status: 200, message: "user saved to database"})
-                    })
+                    all.insertOne(newUser)
+                    res.status(200).json({status: 200, message: "user saved to database"})
                 }
                 else { //user already exists in database
                     res.status(400).json({status: 400, message: "user is already in database"})
@@ -122,9 +121,8 @@ app.post('/blockUser', async (req,res) => {
                         }
                         if (result == null) { //valid user
                             console.log(result)
-                            blocked.insertOne(newUser, (err, result) => {
-                                res.status(200).json({status: 200, message: "user blocked"})
-                            })
+                            blocked.insertOne(newUser)
+                            res.status(200).json({status: 200, message: "user blocked"})
                         }
                         else { //user is already blocked
                             res.status(400).json({status: 400, message: "user is already blocked"})

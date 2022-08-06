@@ -34,9 +34,8 @@ app.post('/reportUser', async (req,res) => {
                             throw err;
                         }
                         if (result == null) { //valid user
-                            reported.insertOne(newUser, (err, result) => {
-                                res.status(200).json({status: 200, message: "user reported"})
-                            })
+                            reported.insertOne(newUser)
+                            res.status(200).json({status: 200, message: "user reported"})
                         }
                         else { //user is already blocked
                             res.status(400).json({status: 400, message: "user has already been reported"})
