@@ -29,17 +29,17 @@ app.post('/postToForum', async (req, res) => {
         }
         else {
             await all.findOne(query, (err, result) => { 
-                //if (err) { 
-                  //  throw err;
-                //}
+                if (err) { 
+                    throw err;
+                }
                 if (result == null) { //author given does not exist (not a signed-in user)
                     res.status(404).json({status: 404, message: "author is not a signed-in user"})
                 }
                 else {
                     blocked.findOne(query, (err, result) => {
-                        //if (err) { 
-                         ///   throw err;
-                       // }
+                        if (err) { 
+                            throw err;
+                        }
                         if (result == null) { //author is qualified to post
                             client.db("forum").collection("posts").insertOne(newPost)
                             res.status(200).json({status: 200, message: "post saved to database"})
