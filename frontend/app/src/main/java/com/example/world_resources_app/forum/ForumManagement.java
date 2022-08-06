@@ -59,8 +59,8 @@ public class ForumManagement extends AppCompatActivity {
     Map<String, Object> posts;
     //private Button makePost, report;
 
-    private String[] forumContent;
-    private String[] forumAuthors;
+    //private String[] forumContent;
+    //private String[] forumAuthors;
     private List<String> testForumContent = new ArrayList<String>();
     private List<String> testForumAuthors = new ArrayList<String>();
 
@@ -143,8 +143,8 @@ public class ForumManagement extends AppCompatActivity {
                         posts = jsonToMap(response);
                         content_objects = (Object[]) posts.get("content");
                         author_objects = (Object[]) posts.get("author");
-                        forumContent = (String[]) content_objects[0];
-                        forumAuthors = (String[]) author_objects[0];
+                        //forumContent = (String[]) content_objects[0];
+                        //forumAuthors = (String[]) author_objects[0];
                         Toast.makeText(ForumManagement.this, "Success " + response, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();

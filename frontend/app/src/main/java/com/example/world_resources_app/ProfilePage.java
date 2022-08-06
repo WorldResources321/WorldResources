@@ -2,7 +2,6 @@ package com.example.world_resources_app;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,16 +26,20 @@ public class ProfilePage extends AppCompatActivity {
 
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
-    TextView name,email,quizScore;
+    TextView name;
+    TextView email;
+    TextView quizScore;
 
-    private Button exitButton;
-
-    private Retrofit retrofit;
-    private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http://10.0.2.2:3000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Button exitButton;
+
+        Retrofit retrofit;
+        RetrofitInterface retrofitInterface;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_page);
 

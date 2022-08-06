@@ -21,7 +21,11 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mapsButton, signInButton, quizButton, forumButton, newsButton;
+    private Button mapsButton;
+    private Button signInButton;
+    private Button quizButton;
+    private Button forumButton;
+    private Button newsButton;
 
     final static String TAG = "MainActivity";
 
@@ -79,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         quizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(true) {
+                if(signedIn) {
                     Intent quizIntent = new Intent(MainActivity.this, Quiz.class);
                     startActivity(quizIntent);
                 }
