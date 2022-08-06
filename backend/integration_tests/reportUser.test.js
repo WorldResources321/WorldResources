@@ -43,6 +43,10 @@ describe('report user', () => {
     it('already reported', async() => {
 
         await request(app)
+        .post('/addUser')
+        .send({email: 'andrew@gmail.com'});
+
+        await request(app)
         .post('/reportUser')
         .send({email: 'andrew@gmail.com'});
 
@@ -57,7 +61,7 @@ describe('report user', () => {
 
         await request(app)
             .post('/addUser')
-            .send('user2@gmail.com');
+            .send({email:'user2@gmail.com'});
             
         await request(app)
             .post('/reportUser')
