@@ -57,9 +57,8 @@ app.post('/postToForum', async (req, res) => {
                             throw err;
                         }
                         if (result == null) { //author is qualified to post
-                            client.db("forum").collection("posts").insertOne(newPost, (err, result) => {
-                                res.status(200).json({status: 200, message: "post saved to database"})
-                            })
+                            client.db("forum").collection("posts").insertOne(newPost)
+                            res.status(200).json({status: 200, message: "post saved to database"})
                         }
                         else { //author is blocked from posting
                             res.status(400).json({status: 400, message: "author is blocked from posting"})
