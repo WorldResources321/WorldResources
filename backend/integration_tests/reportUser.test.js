@@ -11,9 +11,6 @@ describe('report user', () => {
     beforeAll(async () => {
         try {
             await client.connect()
-            if (client.db("users").collection("reported") != null) {
-                client.db("users").collection("reported").drop();
-            }
         }
         catch (err) {
             console.log(err)
