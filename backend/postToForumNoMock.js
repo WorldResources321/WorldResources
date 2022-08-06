@@ -9,8 +9,7 @@ const client = new MongoClient(uri)
 
 app.use(express.json())
 
-app.post('/postToForum', async (req, res) => {
-    try {    
+app.post('/postToForum', async (req, res) => {  
         const users = client.db("users")
         const all = users.collection("all")
         const blocked = users.collection("blocked")
@@ -20,20 +19,27 @@ app.post('/postToForum', async (req, res) => {
         const query = {"email": author}
 
         const newPost = {
-            content: content,
-            author: author
+            content: req.body.content,
+            author: req.body.author
         }
 
+    try {  
         if (content == null || author == null || content === "" || author === "") { //if content or user is not specified
             res.status(400).json({status: 400, message: "content or author unspecified"})
         }
         else {
             await all.findOne(query, (err, result) => { 
+                if (err) { 
+                    throw err;
+                }
                 if (result == null) { //author given does not exist (not a signed-in user)
                     res.status(404).json({status: 404, message: "author is not a signed-in user"})
                 }
                 else {
                     blocked.findOne(query, (err, result) => {
+                        if (err) { 
+                            throw err;
+                        }
                         if (result == null) { //author is qualified to post
                             client.db("forum").collection("posts").insertOne(newPost, (err, result) => {
                                 res.status(200).json({status: 200, message: "post saved to database"})
@@ -44,6 +50,8 @@ app.post('/postToForum', async (req, res) => {
                         }
                     })
                }
+
+
             })
         }
     }
