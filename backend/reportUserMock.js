@@ -11,7 +11,7 @@ function reportUser (user) {
         return {status: 400, message: "user unspecified"};
     }
     else if (mockAllUsers.indexOf(user) == -1) { //invalid user
-        return {status: 400, message: "user does not exist"};
+        return {status: 404, message: "user does not exist"};
     }
     else if (mockReported.indexOf(user) > -1) { //user has already been reported
         return {status: 400, message: "user has already been reported"};
