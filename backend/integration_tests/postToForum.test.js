@@ -24,8 +24,16 @@ describe('post to forum', () => {
     it('blocked author', async() => {
 
         await request(app)
+            .post('/addUser')
+            .send({email: 'andrew@gmail.com'});
+
+        await request(app)
+            .post('/blockUser')
+            .send({email: 'andrew@gmail.com'});
+
+        await request(app)
             .post('/postToForum')
-            .send({content: 'blahbalh', author: 'andrew@gmail.com'}) //have to manually add blocked user to local database
+            .send({content: 'blahbalh', author: 'andrew@gmail.com'})
             .expect(400);
 
     });
@@ -42,8 +50,12 @@ describe('post to forum', () => {
     it('valid post', async() => {
 
         await request(app)
+            .post('/addUser')
+            .send({email: 'user1@gmail.com'})
+
+        await request(app)
             .post('/postToForum')
-            .send({content: 'blahbalh', author: 'user1@gmail.com'}) //have to manually add user to local database
+            .send({content: 'blahbalh', author: 'user1@gmail.com'}) 
             .expect(200);
 
     });
