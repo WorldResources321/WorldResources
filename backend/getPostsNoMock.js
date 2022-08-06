@@ -10,17 +10,18 @@ app.use(express.json())
 app.get('/getPosts', async (req,res) => {
     try {
         const posts = await client.db("forum").collection("posts").find().sort({ _id: -1 }).limit(10).toArray()
-        if (posts == null || posts.length == 0) { //reported user is not a signed-in user
-            res.status(404).json({status: 404, message: "no posts yet"})
-        }
-        else {
-            res.status(200).json(posts)
-        }
     }
     catch(err) {
         console.log(err)
         res.status(400).json({status: err.status, message: err.message})
     }
+    if (posts == null || posts.length == 0) { //reported user is not a signed-in user
+        res.status(404).json({status: 404, message: "no posts yet"})
+    }
+    else {
+         res.status(200).json(posts)
+    }
+
 })
 
 app.post('/postToForum', async (req, res) => {
