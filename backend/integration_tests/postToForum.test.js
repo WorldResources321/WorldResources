@@ -1,24 +1,6 @@
 const request = require("supertest");
 const app = require("../postToForumNoMock");
 
-const {MongoClient} = require("mongodb")
-const uri = "mongodb://localhost:27017"
-const client = new MongoClient(uri)
-
-beforeAll(async () => {
-    try {
-        await client.connect()
-    }
-    catch (err) {
-        console.log(err)
-        await client.close()
-    }
-})
-
-afterAll(async () => {
-    await client.close()
-})
-
 describe('post to forum', () => {
 
     it('empty content', async() => {
@@ -30,11 +12,20 @@ describe('post to forum', () => {
 
     });
 
+    it('empty author', async() => {
+
+        await request(app)
+            .post('/posttoforum')
+            .send({content: 'blahblah', author: ''})
+            .expect(400);
+    });
+
+    
     it('blocked author', async() => {
 
         await request(app)
             .post('/posttoforum')
-            .send({content: 'blahbalh', author: 'block@gmail.com'}) //have to manually add blocked user to local database
+            .send({content: 'blahbalh', author: 'andrew@gmail.com'}) //have to manually add blocked user to local database
             .expect(400);
 
     });
@@ -43,7 +34,7 @@ describe('post to forum', () => {
 
         await request(app)
             .post('/posttoforum')
-            .send({content: 'blahbalh', author: 'dneuser@gmail.com'})
+            .send({content: 'blahbalh', author: 'dneuser@gmail.com'}) 
             .expect(400);
 
     });
@@ -52,9 +43,10 @@ describe('post to forum', () => {
 
         await request(app)
             .post('/posttoforum')
-            .send({content: 'blahbalh', author: 'uesr123@gmail.com'}) //have to manually add user to local database
+            .send({content: 'blahbalh', author: 'user1@gmail.com'}) //have to manually add user to local database
             .expect(200);
 
     });
+    
 
 });
