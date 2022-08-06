@@ -7,38 +7,21 @@ const client = new MongoClient(uri)
 
 app.use(express.json())
 
-app.get('/getPosts', async (req,res) => {
-    try {
-        const posts = await client.db("forum").collection("posts").find().sort({ _id: -1 }).limit(10).toArray()
-        if (posts == null || posts.length === 0) { //reported user is not a signed-in user
-            res.status(404).json({status: 404, message: "no posts yet"})
-         }
-         else {
-            res.status(200).json(posts)
-         }
-    }
-    catch(err) {
-        console.log(err)
-        res.status(400).json({status: err.status, message: err.message})
-     }
-
-})
-
 app.post('/postToForum', async (req, res) => {
+    const users = client.db("users")
+    const all = users.collection("all")
+    const blocked = users.collection("blocked")
+
+    const content = req.body.content
+    const author = req.body.author
+    const query = {"email": author}
+
+    const newPost = {
+        content: req.body.content,
+        author: req.body.author
+    }
+
     try {    
-        const users = client.db("users")
-        const all = users.collection("all")
-        const blocked = users.collection("blocked")
-
-        const content = req.body.content
-        const author = req.body.author
-        const query = {"email": author}
-
-        const newPost = {
-            content: req.body.content,
-            author: req.body.author
-        }
-
         if (content == null || author == null || content === "" || author === "") { //if content or user is not specified
             res.status(400).json({status: 400, message: "content or author unspecified"})
         }
@@ -73,6 +56,24 @@ app.post('/postToForum', async (req, res) => {
         console.log(err)
         res.status(400).json({status: err.status, message: err.message})
     }
+})
+
+
+app.get('/getPosts', async (req,res) => {
+    try {
+        const posts = await client.db("forum").collection("posts").find().sort({ _id: -1 }).limit(10).toArray()
+        if (posts == null || posts.length === 0) { //reported user is not a signed-in user
+            res.status(404).json({status: 404, message: "no posts yet"})
+         }
+         else {
+            res.status(200).json(posts)
+         }
+    }
+    catch(err) {
+        console.log(err)
+        res.status(400).json({status: err.status, message: err.message})
+     }
+
 })
 
 app.post('/addUser', async (req,res) => {
