@@ -13,6 +13,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+
+import java.util.HashMap;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
     TextView totalQuestionsTextView;
@@ -23,7 +36,16 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
     Button ansD;
     Button submitBtn;
 
+    GoogleSignInOptions gso;
+    GoogleSignInClient gsc;
+
+    String email;
+
     final static String TAG = "Quiz";
+
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private String BASE_URL = "http://10.0.2.2:3000";
 
     int score = 0;
     int totalQuestion = QuestionsAnswersUtil.question.length;
@@ -34,6 +56,20 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
+
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        gsc = GoogleSignIn.getClient(this,gso);
+
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+        if(acct != null){
+            email = acct.getEmail();
+        }
 
         totalQuestionsTextView = findViewById(R.id.total_question);
         questionTextView = findViewById(R.id.question);
@@ -72,16 +108,34 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
     private void finishQuiz() {
 
-        String message = "Score is " + score + " out of " + totalQuestion;
+        HashMap<String,String> map = new HashMap<>();
 
+        map.put("email","4");
+        map.put("score", "" + score);
+        Call<Void> call = retrofitInterface.storeQuiz(map);
+
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.code() == 200) {
+                    Toast.makeText(Quiz.this, "New high score!", Toast.LENGTH_LONG).show();
+                } else if (response.code() == 400){
+                    Toast.makeText(Quiz.this, "Well done!", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(Quiz.this, t.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        });
+
+        String message = "Score is " + score + " out of " + totalQuestion;
         new AlertDialog.Builder(this)
                 .setTitle("Results")
                 .setMessage(message)
                 .setPositiveButton("Restart",(dialogInterface, i) -> restartQuiz())
                 .setCancelable(false)
                 .show();
-
-        //totalQuestionsTextView.setText(message);
     }
 
     private void restartQuiz() {
@@ -89,7 +143,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
         currentQuestionIndex = 0;
         loadNewQuestion();
         String questionText = "Total questions: " + totalQuestion;
-        //totalQuestionsTextView.setText(questionText);
+
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.example.world_resources_app;
 
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -37,12 +36,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        gsc = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
+
         forumButton = findViewById(R.id.forum_button);
         forumButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ForumManagement.class);
-                startActivity(intent);
+                if(acct != null) {
+                    Intent forumIntent = new Intent(MainActivity.this, ForumManagement.class);
+                    startActivity(forumIntent);
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "Please sign in to use this feature", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -50,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         newsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, NewsManagement.class);
-                startActivity(intent);
+                Intent newsIntent = new Intent(MainActivity.this, NewsManagement.class);
+                startActivity(newsIntent);
             }
         });
 
@@ -78,12 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        gsc = GoogleSignIn.getClient(this, gso);
 
         signInButton = findViewById(R.id.sign_in_button);
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -119,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void navigateToProfile() {
         finish();
-        Intent intent = new Intent(MainActivity.this,ProfilePage.class);
-        startActivity(intent);
+        Intent profileIntent = new Intent(MainActivity.this,ProfilePage.class);
+        startActivity(profileIntent);
     }
 
 }
