@@ -35,16 +35,16 @@ describe('report user', () => {
     it('already reported', async() => {
 
         await request(app)
-        .post('/addUser')
-        .send({email: 'andrew@gmail.com'});
-
-        await request(app)
-        .post('/reportUser')
-        .send({email: 'andrew@gmail.com'});
+            .post('/addUser')
+            .send({email: 'andrew@gmail.com'});
 
         await request(app)
             .post('/reportUser')
-            .send({email: 'andrew@gmail.com'}) //have to manually add to local database
+            .send({email: 'andrew@gmail.com'});
+
+        await request(app)
+            .post('/reportUser')
+            .send({email: 'andrew@gmail.com'}) 
             .expect(400);
 
     });
