@@ -8,9 +8,7 @@ const client = new MongoClient(uri)
 app.use(express.json())
 
 app.get('/getPosts', async (req,res) => {
-    try {
-        const posts = await client.db("forum").collection("posts").find().sort({ _id: -1 }).limit(10).toArray()
-    }
+    try const posts = await client.db("forum").collection("posts").find().sort({ _id: -1 }).limit(10).toArray()
     catch(err) {
         console.log(err)
         res.status(400).json({status: err.status, message: err.message})
