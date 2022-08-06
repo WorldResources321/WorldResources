@@ -22,7 +22,7 @@ describe('mocking user database', () => {
 
     var resultInt4 = postToForum("blahhhh", "notrealuser@gmail.com")
     test('correct output when author is not registered in database', () => {
-        expect (resultInt4).toStrictEqual({status: 400, message: "author is not a signed-in user"});
+        expect (resultInt4).toStrictEqual({status: 404, message: "author is not a signed-in user"});
     });
 
     var resultInt5 = postToForum("blahhhh", "ccc@gmail.com")

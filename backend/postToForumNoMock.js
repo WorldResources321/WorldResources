@@ -30,7 +30,7 @@ app.post('/postToForum', async (req, res) => {
         else {
             await all.findOne(query, (err, result) => { 
                 if (result == null) { //author given does not exist (not a signed-in user)
-                    res.status(400).json({status: 400, message: "author is not a signed-in user"})
+                    res.status(404).json({status: 404, message: "author is not a signed-in user"})
                 }
                 else {
                     blocked.findOne(query, (err, result) => {
@@ -44,8 +44,6 @@ app.post('/postToForum', async (req, res) => {
                         }
                     })
                }
-
-
             })
         }
     }
@@ -54,7 +52,6 @@ app.post('/postToForum', async (req, res) => {
         res.status(400).json({status: err.status, message: err.message})
     }
 })
-
 
 async function run() {
     try {

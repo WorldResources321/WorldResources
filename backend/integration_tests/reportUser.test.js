@@ -3,6 +3,27 @@ const app = require("../reportUserNoMock");
 
 describe('report user', () => {
 
+    
+    const {MongoClient} = require("mongodb")
+    const uri = "mongodb://localhost:27017"
+    const client = new MongoClient(uri)
+    
+    beforeAll(async () => {
+        try {
+            await client.connect()
+            client.db("users").collection("reported").drop();
+        }
+        catch (err) {
+            console.log(err)
+            await client.close()
+        }
+    })
+    
+    afterAll(async() => {
+        await client.close()    
+    })
+
+
     it('empty user', async() => {
         await request(app)
             .post('/reportUser')
@@ -20,6 +41,10 @@ describe('report user', () => {
     });
 
     it('already reported', async() => {
+
+        await request(app)
+        .post('/reportUser')
+        .send({email: 'andrew@gmail.com'});
 
         await request(app)
             .post('/reportUser')

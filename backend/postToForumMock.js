@@ -13,7 +13,7 @@ function postToForum (content, author) {
         return {status: 400, message: "author is blocked from posting"};
     }
     else if (mockAllUsers.indexOf(author) == -1) { //invalid user
-        return {status: 400, message: "author is not a signed-in user"};
+        return {status: 404, message: "author is not a signed-in user"};
     }
     else { //valid post
         return {status: 200, message: "post saved to database"};
