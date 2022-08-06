@@ -78,23 +78,25 @@ app.post('/postToForum', async (req, res) => {
 })
 
 app.post('/addUser', async (req,res) => {
+  
+    const users = client.db("users")
+    const all = users.collection("all")
+    const newUser = {
+        "email": req.body.email
+    }
 
-    try {    
-        const users = client.db("users")
-        const all = users.collection("all")
-        const newUser = {
-            "email": req.body.email
-        }
-
+    try {  
         if (req.body.email == null || req.body.email === "") { //if user is not given
             res.status(400).json({status: 400, message: "user unspecified"})
         }
         else {
             await all.findOne(newUser, (err, result) => { 
+                if (err) { 
+                    throw err;
+                }
                 if (result == null) { //valid new user
-                    all.insertOne(newUser, (err, result) => {
-                        res.status(200).json({status: 200, message: "user saved to database"})
-                    })
+                    all.insertOne(newUser)
+                    res.status(200).json({status: 200, message: "user saved to database"})
                 }
                 else { //user already exists in database
                     res.status(400).json({status: 400, message: "user is already in database"})
