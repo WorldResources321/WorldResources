@@ -12,6 +12,7 @@ describe('report user', () => {
         try {
             await client.connect()
             client.db("users").collection("reported").drop();
+            client.db("users").createCollection("reported");
         }
         catch (err) {
             console.log(err)
@@ -22,7 +23,6 @@ describe('report user', () => {
     afterAll(async() => {
         await client.close()    
     })
-
 
     it('empty user', async() => {
         await request(app)
