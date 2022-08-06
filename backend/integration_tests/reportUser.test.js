@@ -11,6 +11,7 @@ describe('report user', () => {
     beforeAll(async () => {
         try {
             await client.connect()
+            console.log("reportUser.test connected to database")
         }
         catch (err) {
             console.log(err)

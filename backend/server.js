@@ -17,20 +17,20 @@ app.post('/', async (req,res) => {
 })
 
 app.post('/postToForum', async (req, res) => {
-        const users = client.db("users")
-        const all = users.collection("all")
-        const blocked = users.collection("blocked")
+    const users = client.db("users")
+    const all = users.collection("all")
+    const blocked = users.collection("blocked")
 
-        const content = req.body.content
-        const author = req.body.author
-        const query = {"email": author}
+    const content = req.body.content
+    const author = req.body.author
+    const query = {"email": author}
 
-        const newPost = {
-            content: req.body.content,
-            author: req.body.author
-        }
-        
-        try {    
+    const newPost = {
+        content: req.body.content,
+        author: req.body.author
+    }
+
+    try {    
         if (content == null || author == null || content === "" || author === "") { //if content or user is not specified
             res.status(400).json({status: 400, message: "content or author unspecified"})
         }
@@ -68,14 +68,15 @@ app.post('/postToForum', async (req, res) => {
 })
 
 app.post('/blockUser', async (req,res) => {
-    try {    
-        const users = client.db("users")
-        const all = users.collection("all")
-        const blocked = users.collection("blocked")
-        const newUser = {
-            "email": req.body.email
-        }
+  
+    const users = client.db("users")
+    const all = users.collection("all")
+    const blocked = users.collection("blocked")
+    const newUser = {
+       "email": req.body.email
+    }
 
+    try {  
         if (req.body.email == null || req.body.email === "") { //if user is not given
             res.status(400).json({status: 400, message: "user unspecified"})
         }
