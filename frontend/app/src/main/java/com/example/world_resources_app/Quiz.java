@@ -1,13 +1,11 @@
 package com.example.world_resources_app;
 
-import androidx.annotation.ColorInt;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,7 +41,6 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
     final static String TAG = "Quiz";
 
-    private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http://10.0.2.2:3000";
 
@@ -54,6 +51,9 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Retrofit retrofit;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 

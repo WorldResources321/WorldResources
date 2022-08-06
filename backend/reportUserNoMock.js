@@ -47,14 +47,14 @@ app.post('/reportUser', async (req,res) => {
 })
 
 app.post('/addUser', async (req,res) => {
-
-    try {    
+  
         const users = client.db("users")
         const all = users.collection("all")
         const newUser = {
             "email": req.body.email
         }
 
+    try {  
         if (req.body.email == null || req.body.email === "") { //if user is not given
             res.status(400).json({status: 400, message: "user unspecified"})
         }

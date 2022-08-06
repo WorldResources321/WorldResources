@@ -41,9 +41,8 @@ app.post('/postToForum', async (req, res) => {
                             throw err;
                         }
                         if (result == null) { //author is qualified to post
-                            client.db("forum").collection("posts").insertOne(newPost, (err, result) => {
-                                res.status(200).json({status: 200, message: "post saved to database"})
-                            })
+                            client.db("forum").collection("posts").insertOne(newPost)
+                            res.status(200).json({status: 200, message: "post saved to database"})
                         }
                         else { //author is blocked from posting
                             res.status(400).json({status: 400, message: "author is blocked from posting"})
@@ -75,6 +74,9 @@ app.post('/addUser', async (req,res) => {
         }
         else {
             await all.findOne(newUser, (err, result) => { 
+                if (err) { 
+                    throw err;
+                }
                 if (result == null) { //valid new user
                     all.insertOne(newUser, (err, result) => {
                         res.status(200).json({status: 200, message: "user saved to database"})
@@ -107,11 +109,17 @@ app.post('/blockUser', async (req,res) => {
         }
         else {
             await all.findOne(newUser, (err, result) => { 
+                if (err) { 
+                    throw err;
+                }
                 if (result == null) { //blocked user is not a signed-in user
                     res.status(404).json({status: 404, message: "user does not exist"})
                 }
                 else { 
                     blocked.findOne(newUser, (err, result) => {
+                        if (err) { 
+                            throw err;
+                        }
                         if (result == null) { //valid user
                             console.log(result)
                             blocked.insertOne(newUser, (err, result) => {

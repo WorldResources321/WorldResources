@@ -21,11 +21,6 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button mapsButton;
-    private Button signInButton;
-    private Button quizButton;
-    private Button forumButton;
-    private Button newsButton;
 
     final static String TAG = "MainActivity";
 
@@ -37,6 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Button mapsButton;
+        Button signInButton;
+         Button quizButton;
+         Button forumButton;
+         Button newsButton;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
