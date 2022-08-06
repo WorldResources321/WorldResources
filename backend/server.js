@@ -82,16 +82,20 @@ app.post('/blockUser', async (req,res) => {
         }
         else {
             await all.findOne(newUser, (err, result) => { 
+                if (err) {
+                    throw(err);
+                }
                 if (result == null) { //blocked user is not a signed-in user
                     res.status(404).json({status: 404, message: "user does not exist"})
                 }
                 else { 
                     blocked.findOne(newUser, (err, result) => {
+                        if (err) {
+                            throw(err);
+                        }
                         if (result == null) { //valid user
-                            console.log(result)
-                            blocked.insertOne(newUser, (err, result) => {
-                                res.status(200).json({status: 200, message: "user blocked"})
-                            })
+                            blocked.insertOne(newUser)
+                            res.status(200).json({status: 200, message: "user blocked"})
                         }
                         else { //user is already blocked
                             res.status(400).json({status: 400, message: "user is already blocked"})
@@ -127,9 +131,8 @@ app.post('/reportUser', async (req,res) => {
                 else { 
                     reported.findOne(newUser, (err, result) => {
                         if (result == null) { //valid user
-                            reported.insertOne(newUser, (err, result) => {
-                                res.status(200).json({status: 200, message: "user reported"})
-                            })
+                            reported.insertOne(newUser)
+                            res.status(200).json({status: 200, message: "user reported"})
                         }
                         else { //user is already blocked
                             res.status(400).json({status: 400, message: "user has already been reported"})
@@ -209,6 +212,9 @@ MongoClient.connect(uri, (err, db) => {
                 email: req.body.email,
             }
             scoreCollection.findOne(query, (err, result) => {
+                if (err) {
+                    throw(err);
+                }
                 if (result != null) {
                     const objToSend = {
                         score: result.score
@@ -230,22 +236,24 @@ MongoClient.connect(uri, (err, db) => {
             const query = {email : newScore.email}
 
             scoreCollection.findOne(query, (err, result) => {
-                
+                if (err) {
+                    throw(err);
+                }
                 if (result == null) {
-                    scoreCollection.insertOne(newScore, (err, result) => {
+                    scoreCollection.insertOne(newScore)
                         res.status(200).send()
                         console.log("logged quiz (null)")
-                    })
+                    
                 } else if (newScore.score > result.score){
-                    scoreCollection.findOneAndReplace(query,newScore, (err, result) => {
+                    scoreCollection.findOneAndReplace(query,newScore)
                         res.status(200).send()
                         console.log("logged quiz (new high score)")
-                    })
-                } else if(newScore.score == 10){
-                    scoreCollection.findOneAndReplace(query,newScore, (err, result) => {
+
+                } else if(newScore.score === 10){
+                    scoreCollection.findOneAndReplace(query,newScore)
                         res.status(200).send()
                         console.log("logged quiz (full marks)")
-                    })
+
                 }
                 else {
                     res.status(400).send()
