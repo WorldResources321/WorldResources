@@ -142,7 +142,7 @@ public class Quiz extends AppCompatActivity implements View.OnClickListener{
         score = 0;
         currentQuestionIndex = 0;
         loadNewQuestion();
-        String questionText = "Total questions: " + totalQuestion;
+        //String questionText = "Total questions: " + totalQuestion;
 
     }
 
