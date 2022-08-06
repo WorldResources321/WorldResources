@@ -56,6 +56,10 @@ describe('report user', () => {
     it('valid report', async() => {
 
         await request(app)
+            .post('/addUser')
+            .send('user2@gmail.com');
+            
+        await request(app)
             .post('/reportUser')
             .send({email: 'user2@gmail.com'})
             .expect(200);

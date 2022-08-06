@@ -37,7 +37,7 @@ app.post('/postToForum', async (req, res) => {
         else {
             await all.findOne(query, (err, result) => { 
                 if (result == null) { //author given does not exist (not a signed-in user)
-                    res.status(400).json({status: 400, message: "author is not a signed-in user"})
+                    res.status(404).json({status: 404, message: "author is not a signed-in user"})
                 }
                 else {
                     blocked.findOne(query, (err, result) => {
@@ -71,7 +71,7 @@ app.post('/addUser', async (req,res) => {
             "email": req.body.email
         }
 
-        if (newUser == null || newUser === "") { //if user is not given
+        if (req.body.email == null || req.body.email === "") { //if user is not given
             res.status(400).json({status: 400, message: "user unspecified"})
         }
         else {
@@ -103,13 +103,13 @@ app.post('/blockUser', async (req,res) => {
             "email": req.body.email
         }
 
-        if (newUser == null || newUser === "") { //if user is not given
+        if (req.body.email == null || req.body.email === "") { //if user is not given
             res.status(400).json({status: 400, message: "user unspecified"})
         }
         else {
             await all.findOne(newUser, (err, result) => { 
                 if (result == null) { //blocked user is not a signed-in user
-                    res.status(400).json({status: 400, message: "user does not exist"})
+                    res.status(404).json({status: 404, message: "user does not exist"})
                 }
                 else { 
                     blocked.findOne(newUser, (err, result) => {
@@ -142,13 +142,13 @@ app.post('/reportUser', async (req,res) => {
             "email": req.body.email
         }
 
-        if (newUser == null || newUser === "") { //if user is not given
+        if (req.body.email == null || req.body.email === "") { //if user is not given
             res.status(400).json({status: 400, message: "user unspecified"})
         }
         else {
             await all.findOne(newUser, (err, result) => { 
                 if (result == null) { //reported user is not a signed-in user
-                    res.status(400).json({status: 400, message: "user does not exist"})
+                    res.status(404).json({status: 404, message: "user does not exist"})
                 }
                 else { 
                     reported.findOne(newUser, (err, result) => {
@@ -173,10 +173,9 @@ app.post('/reportUser', async (req,res) => {
 
 app.get('/getPosts', async (req,res) => {
     try {
-        const posts = await client.db("forum").collection("posts").find().sort({ _id: -1 }).limit(10).toArray() //get most recent posts
-
-        if (posts == null) {
-            res.status(404).json({status: 400, message: "no posts yet"})
+        const posts = await client.db("forum").collection("posts").find().sort({ _id: -1 }).limit(10).toArray()
+        if (posts == null || posts.length == 0) { //reported user is not a signed-in user
+            res.status(404).json({status: 404, message: "no posts yet"})
         }
         else {
             res.status(200).json(posts)
@@ -197,7 +196,7 @@ MongoClient.connect(uri, (err, db) => {
         const myDB = db.db('myDB')
         const scoreCollection = myDB.collection('myScores')
         
-        app.post('/getQuiz', (req, res) => { //app.get not app.post ?
+        app.post('/getQuiz', (req, res) => { 
             const query = {
                 email: req.body.email,
             }
@@ -267,4 +266,3 @@ async function run() {
 }
 
 run()
-
