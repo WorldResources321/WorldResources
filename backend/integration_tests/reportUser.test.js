@@ -9,13 +9,7 @@ describe('report user', () => {
     const client = new MongoClient(uri)
     
     beforeAll(async () => {
-        try {
-            await client.connect()
-        }
-        catch (err) {
-            console.log(err)
-            await client.close()
-        }
+        await client.connect()
     })
     
     afterAll(async() => {
