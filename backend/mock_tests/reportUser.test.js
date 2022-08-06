@@ -12,7 +12,7 @@ describe('mocking user database', () => {
 
     var resultInt2 = reportUser("dne@gmail.com")
     test('correct output when user given does not exist', () => {
-        expect (resultInt2).toMatchObject({status: 400, message: "user does not exist"});
+        expect (resultInt2).toMatchObject({status: 404, message: "user does not exist"});
     });
 
     var resultInt3 = reportUser("aaa@gmail.com")
