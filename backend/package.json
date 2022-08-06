@@ -6,15 +6,20 @@
   "main": "sum.js",
   "dependencies": {
     "babel-jest": "^28.1.3",
+    "express": "^4.18.1",
     "jest": "^28.1.3",
+    "mongodb": "^4.8.1",
     "nodemon": "^2.0.19",
     "ts-jest": "^28.0.6"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start-mongo": "sudo mongod --dbpath ~/data/db"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "supertest": "^6.2.4"
+  }
 
 }
- 
